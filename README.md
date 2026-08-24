@@ -46,13 +46,13 @@ MPESA_WEBHOOK_SECRET="set-a-long-random-string"
 - Product pages: gallery, variants, personalization fields, reviews, related gifts
 - Gift box builder — `/build-your-gift` (server-priced via configurable fees)
 - Cart drawer + cart page with discount codes (`WELCOME10`, `TALISLOVE`, `BIRTHDAY15`)
-- Checkout: guest or account, delivery zones w/ fees, COD (Nairobi), gift note
+- Checkout: guest or account, free countrywide delivery, M-PESA STK / COD, gift note
 - Payments: full M-PESA Daraja STK push (`CustomerPayBillOnline` default; set `MPESA_TXN_TYPE=CustomerBuyGoodsOnline` for Till numbers), signed webhook auto-confirmation, status polling; manual admin confirmation fallback
 - Accounts: register/login, profile, addresses, order history, reorder
 - Order tracking by number + phone/email — `/track-order`
 - Wishlist (device-synced when signed in)
 - Reviews with moderation queue
-- Admin at `/admin`: dashboard stats + 14-day revenue chart, product CRUD, order fulfillment (status flow, manual payment confirm, cancel/restock/refund), categories, collections, discounts, reviews, customers, store settings & delivery zones
+- Admin at `/admin`: dashboard stats + 14-day revenue chart, product CRUD, order fulfillment (status flow, manual payment confirm, cancel/restock/refund), categories, collections, discounts, reviews, customers, store settings
 
 ## Notes for production
 

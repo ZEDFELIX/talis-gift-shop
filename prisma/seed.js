@@ -342,7 +342,6 @@ async function main() {
   await db.category.deleteMany();
   await db.collection.deleteMany();
   await db.occasion.deleteMany();
-  await db.deliveryZone.deleteMany();
   await db.newsletterSubscriber.deleteMany();
   await db.contactMessage.deleteMany();
   await db.setting.deleteMany();
@@ -408,14 +407,6 @@ async function main() {
     ]
   });
 
-  await db.deliveryZone.createMany({
-    data: [
-      { name: "Nairobi — CBD & Westlands", fee: 0, etaNote: "Same-day before 12pm orders" },
-      { name: "Nairobi — Suburbs", fee: 0, etaNote: "Within 24 hours" },
-      { name: "Rest of Kenya", fee: 0, etaNote: "2–3 working days" }
-    ]
-  });
-
   const settings = {
     announcement: "",
     whatsapp: "254711436169",
@@ -432,7 +423,6 @@ async function main() {
   };
   for (const [key, value] of Object.entries(settings)) await db.setting.create({ data: { key, value } });
 
-  const zone = await db.deliveryZone.findFirst();
   const demoItems = [
     { productId: prodMap["talis-candle-vanilla-noir"].id, name: "Talis Candle — Vanilla Noir", imageUrl: "/images/candle.svg", unitPrice: 1500, qty: 2 },
     { productId: prodMap["personalized-mug"].id, name: "Personalized Mug", imageUrl: "/images/mug.svg", unitPrice: 1200, qty: 1, variantJson: null, personalizationJson: JSON.stringify({ Name: "Mum" }) }
@@ -448,12 +438,10 @@ async function main() {
       deliveryName: "Sarah Njeri",
       addressLine: "12 Rose Avenue, Kilimani",
       city: "Nairobi",
-      zoneId: zone.id,
-      zoneName: zone.name,
       subtotal: demoSubtotal,
       discountTotal: 0,
-      deliveryFee: zone.fee,
-      total: demoSubtotal + zone.fee,
+      deliveryFee: 0,
+      total: demoSubtotal,
       status: "DELIVERED",
       estimatedDelivery: new Date(now - 86400000),
       items: { create: demoItems },
@@ -467,7 +455,7 @@ async function main() {
           { status: "DELIVERED", createdAt: new Date(now - 3 * 86400000 + 5400000), note: "Delivered with a smile." }
         ]
       },
-      payment: { create: { provider: "mpesa", method: "MPESA", status: "PAID", reference: "QGH7DEMO01", amount: demoSubtotal + zone.fee } }
+      payment: { create: { provider: "mpesa", method: "MPESA", status: "PAID", reference: "QGH7DEMO01", amount: demoSubtotal } }
     }
   });
   void demoOrder;

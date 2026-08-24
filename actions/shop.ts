@@ -27,7 +27,6 @@ const createOrderSchema = z.object({
     phone: z.string().min(9).max(16)
   }),
   delivery: z.object({
-    zoneId: z.string(),
     addressLine: z.string().min(4).max(160),
     city: z.string().min(2).max(40),
     instructions: z.string().max(300).optional()
@@ -152,8 +151,6 @@ export async function createOrder(payload: unknown): Promise<CreateOrderResult> 
   const data = parsed.data;
 
   const settings = await getSettings();
-  const zone = await db.deliveryZone.findFirst({ where: { id: data.delivery.zoneId, active: true } });
-  if (!zone) return { ok: false, error: "Please choose a delivery zone." };
 
   let subtotal = 0;
   type ResolvedLine = {
@@ -214,8 +211,7 @@ export async function createOrder(payload: unknown): Promise<CreateOrderResult> 
     }
   }
 
-  const deliveryFee = zone.fee;
-  const total = Math.max(0, subtotal - discountTotal) + deliveryFee;
+  const total = Math.max(0, subtotal - discountTotal);
 
   const user = await getSessionUser();
   const num = orderNumber();
@@ -231,18 +227,16 @@ export async function createOrder(payload: unknown): Promise<CreateOrderResult> 
           deliveryName: data.gift?.recipientName?.trim() || data.customer.name,
           addressLine: data.delivery.addressLine,
           city: data.delivery.city,
-          zoneId: zone.id,
-          zoneName: zone.name,
           instructions: data.delivery.instructions || null,
           recipientName: data.gift?.recipientName || null,
           giftNote: data.gift?.note || null,
           subtotal,
           discountTotal,
           discountCode,
-          deliveryFee,
+          deliveryFee: 0,
           total,
           status: data.paymentMethod === "COD" ? "PAID" : "PAYMENT_PENDING",
-          estimatedDelivery: new Date(Date.now() + (zone.name.startsWith("Nairobi") ? 86400000 : 3 * 86400000)),
+          estimatedDelivery: new Date(Date.now() + (data.delivery.city.trim().toLowerCase().startsWith("nairobi") ? 86400000 : 3 * 86400000)),
           items: { create: lines },
           events: {
             create: [
@@ -307,7 +301,6 @@ export async function trackOrder(query: { orderNumber: string; contact: string }
       deliveryFee: order.deliveryFee,
       subtotal: order.subtotal,
       discountTotal: order.discountTotal,
-      zoneName: order.zoneName,
       addressLine: order.addressLine,
       city: order.city,
       items: order.items.map((i) => ({ name: i.name, imageUrl: i.imageUrl, unitPrice: i.unitPrice, qty: i.qty })),

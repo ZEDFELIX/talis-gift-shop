@@ -1,19 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { db } from "@/lib/db";
 import { getSettings } from "@/lib/settings";
 import { Breadcrumbs, Divider } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Delivery Information",
-  description: "Same-day delivery in Nairobi and 2–3 day countrywide delivery. Fees by zone, verified M-PESA payments."
+  description: "Free same-day delivery in Nairobi and free 2–3 day countrywide delivery. Verified M-PESA payments."
 };
 
 export default async function DeliveryPage() {
-  const [zones, settings] = await Promise.all([
-    db.deliveryZone.findMany({ where: { active: true }, orderBy: { fee: "asc" } }),
-    getSettings()
-  ]);
+  const settings = await getSettings();
 
   return (
     <div className="container-talis max-w-3xl py-12 md:py-16">
@@ -26,19 +22,12 @@ export default async function DeliveryPage() {
         </p>
       </header>
 
-      <section aria-label="Delivery zones" className="border border-beige bg-white">
-        <h2 className="border-b border-beige p-5 font-serif text-xl text-ink">Zones &amp; Fees</h2>
-        <ul className="divide-y divide-beige/70">
-          {zones.map((z) => (
-            <li key={z.id} className="flex flex-wrap items-center justify-between gap-2 p-5">
-              <div>
-                <p className="font-semibold">{z.name}</p>
-                {z.etaNote && <p className="text-xs text-espresso/55">{z.etaNote}</p>}
-              </div>
-              <p className="font-serif text-lg font-semibold">{z.fee === 0 ? "Free" : `KSh ${z.fee.toLocaleString("en-KE")}`}</p>
-            </li>
-          ))}
-        </ul>
+      <section aria-label="Delivery promise" className="border border-gold/50 bg-champagne/10 p-6 text-center">
+        <p className="eyebrow">Our promise</p>
+        <p className="mt-2 font-serif text-2xl text-ink sm:text-3xl">Free delivery, countrywide</p>
+        <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-espresso/70">
+          No zones, no fees, no surprises. Every order ships free anywhere in Kenya.
+        </p>
       </section>
 
       <section className="mt-10 grid gap-6 sm:grid-cols-2">
@@ -46,7 +35,7 @@ export default async function DeliveryPage() {
           <h2 className="font-serif text-lg text-ink">Same-day (Nairobi)</h2>
           <Divider />
           <p className="text-sm leading-relaxed text-espresso/70">
-            Orders confirmed before <strong>12:00pm</strong> can arrive the same day in most Nairobi zones. After noon, expect next-day delivery.
+            Orders confirmed before <strong>12:00pm</strong> can arrive the same day in most Nairobi areas. After noon, expect next-day delivery.
           </p>
         </div>
         <div className="border border-beige bg-white p-6">

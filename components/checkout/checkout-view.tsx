@@ -1,36 +1,27 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useCart } from "@/components/providers/cart";
 import { createOrder } from "@/actions/shop";
-import { Button, Field, Input, Select, Textarea, Divider, Spinner } from "@/components/ui";
+import { Button, Field, Input, Textarea, Divider, Spinner } from "@/components/ui";
 import { EmptyState } from "@/components/shop/catalog-ui";
 import { CheckIcon, CreditCardIcon, TruckIcon } from "@/components/icons";
 import { cn, formatKSh } from "@/lib/utils";
 
-type Zone = { id: string; name: string; fee: number; etaNote: string | null };
-
-export function CheckoutView({ zones, defaultName, defaultEmail, defaultPhone }: {
-  zones: Zone[];
+export function CheckoutView({ defaultName, defaultEmail, defaultPhone }: {
   defaultName?: string;
   defaultEmail?: string;
   defaultPhone?: string;
 }) {
   const router = useRouter();
   const cart = useCart();
-  const [zoneId, setZoneId] = useState(zones[0]?.id ?? "");
   const [method, setMethod] = useState<"MPESA" | "COD">("MPESA");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
-  const zone = zones.find((z) => z.id === zoneId) ?? zones[0];
   const discountOff = cart.discount?.amountOff ?? 0;
-  const deliveryFee = zone?.fee ?? 0;
-
-  const total = Math.max(0, cart.subtotal - discountOff) + deliveryFee;
-
-  const codAvailable = useMemo(() => Boolean(zone?.name.startsWith("Nairobi")), [zone]);
+  const total = Math.max(0, cart.subtotal - discountOff);
 
   if (!cart.mounted) {
     return <div className="h-64 animate-pulse rounded bg-white/50" aria-hidden />;
@@ -71,7 +62,6 @@ export function CheckoutView({ zones, defaultName, defaultEmail, defaultPhone }:
             phone: String(fd.get("phone") || "")
           },
           delivery: {
-            zoneId,
             addressLine: String(fd.get("addressLine") || ""),
             city: String(fd.get("city") || ""),
             instructions: String(fd.get("instructions") || "") || undefined
@@ -118,17 +108,12 @@ export function CheckoutView({ zones, defaultName, defaultEmail, defaultPhone }:
 
         <fieldset>
           <legend className="mb-5 flex items-center gap-2 font-serif text-xl text-ink"><TruckIcon width={20} height={20} className="text-gold" /> 2 · Delivery</legend>
+          <p className="mb-4 inline-block border border-gold/40 bg-champagne/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-espresso/75">
+            Free countrywide delivery
+          </p>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Delivery zone" required>
-              <Select value={zoneId} onChange={(e) => setZoneId(e.target.value)}>
-                {zones.map((z) => (
-                  <option key={z.id} value={z.id}>{z.name} — {formatKSh(z.fee)}</option>
-                ))}
-              </Select>
-              {zone?.etaNote && <span className="mt-1 block text-xs text-espresso/50">{zone.etaNote}</span>}
-            </Field>
             <Field label="City / Town" required>
-              <Input name="city" defaultValue={zone?.name.startsWith("Nairobi") ? "Nairobi" : ""} required minLength={2} autoComplete="address-level2" />
+              <Input name="city" required minLength={2} autoComplete="address-level2" />
             </Field>
             <Field label="Delivery address" required className="sm:col-span-2">
               <Input name="addressLine" required placeholder="Estate / street / building & house number" minLength={4} autoComplete="street-address" />
@@ -171,11 +156,10 @@ export function CheckoutView({ zones, defaultName, defaultEmail, defaultPhone }:
             </button>
             <button
               type="button"
-              onClick={() => codAvailable && setMethod("COD")}
+              onClick={() => setMethod("COD")}
               aria-pressed={method === "COD"}
-              disabled={!codAvailable}
               className={cn(
-                "flex items-start gap-3 border p-4 text-left transition-all disabled:cursor-not-allowed disabled:opacity-45",
+                "flex items-start gap-3 border p-4 text-left transition-all",
                 method === "COD" ? "border-gold ring-1 ring-gold/40 bg-champagne/10" : "border-beige bg-white hover:border-gold/60"
               )}
             >
@@ -184,7 +168,7 @@ export function CheckoutView({ zones, defaultName, defaultEmail, defaultPhone }:
               </span>
               <span>
                 <span className="block font-semibold">Cash on Delivery</span>
-                <span className="mt-0.5 block text-xs leading-relaxed text-espresso/55">{codAvailable ? "Pay our courier in person. Nairobi zones only." : "Nairobi zones only."}</span>
+                <span className="mt-0.5 block text-xs leading-relaxed text-espresso/55">Pay our courier in person when your gift arrives.</span>
               </span>
             </button>
             <button type="button" disabled aria-disabled className="flex cursor-not-allowed items-start gap-3 border border-beige bg-white p-4 text-left opacity-45 sm:col-span-2">
@@ -229,7 +213,7 @@ export function CheckoutView({ zones, defaultName, defaultEmail, defaultPhone }:
             {discountOff > 0 && (
               <div className="flex justify-between text-green-800"><dt>Discount ({cart.discount?.code})</dt><dd>-{formatKSh(discountOff)}</dd></div>
             )}
-            <div className="flex justify-between"><dt className="text-espresso/65">Delivery{zone ? ` — ${zone.name}` : ""}</dt><dd>{deliveryFee === 0 ? "Free" : formatKSh(deliveryFee)}</dd></div>
+            <div className="flex justify-between"><dt className="text-espresso/65">Delivery</dt><dd className="font-semibold text-green-800">Free</dd></div>
           </dl>
           <div className="mt-4 flex items-baseline justify-between border-t-2 border-ink pt-4">
             <span className="text-[12px] font-semibold uppercase tracking-[0.18em]">Total</span>

@@ -63,7 +63,7 @@ export default async function AdminOrderDetailPage({ params }: { params: { id: s
             <dl className="space-y-1.5 border-t border-beige bg-champagne/10 px-5 py-4 text-sm">
               <div className="flex justify-between"><dt className="text-espresso/60">Subtotal</dt><dd>{formatKSh(order.subtotal)}</dd></div>
               {order.discountTotal > 0 && <div className="flex justify-between text-green-800"><dt>Discount{order.discountCode ? ` (${order.discountCode})` : ""}</dt><dd>-{formatKSh(order.discountTotal)}</dd></div>}
-              <div className="flex justify-between"><dt className="text-espresso/60">Delivery — {order.zoneName ?? order.city}</dt><dd>{order.deliveryFee === 0 ? "Free" : formatKSh(order.deliveryFee)}</dd></div>
+              <div className="flex justify-between"><dt className="text-espresso/60">Delivery — {order.city}</dt><dd>{order.deliveryFee === 0 ? "Free" : formatKSh(order.deliveryFee)}</dd></div>
               <div className="flex justify-between border-t border-beige pt-1.5 font-semibold"><dt>Total</dt><dd className="font-serif text-base">{formatKSh(order.total)}</dd></div>
             </dl>
           </section>

@@ -47,11 +47,11 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   faqs: [
     { q: "How do I order?", a: "Browse the shop or build a custom gift box, add your favourites to cart and check out. It takes less than two minutes." },
     { q: "How long does delivery take?", a: "Nairobi orders placed before 12pm are delivered within 24 hours. Up-country orders arrive within 2–3 working days." },
-    { q: "Do you offer same-day delivery?", a: "Yes, within Nairobi for orders confirmed before 12pm. A same-day fee may apply depending on your zone." },
+    { q: "Do you offer same-day delivery?", a: "Yes, within Nairobi for orders confirmed before 12pm — at no extra cost." },
     { q: "Can I personalize a gift?", a: "Absolutely. Many products can be engraved, printed or embroidered with a name, date or message. Look for the 'Personalizable' mark." },
     { q: "Can I add a message?", a: "Every order includes a complimentary handwritten Talis card. Add your message at cart or checkout." },
     { q: "What payment methods do you accept?", a: "M-PESA is our primary method. Card payments are coming soon. All payments are verified before dispatch." },
-    { q: "Do you deliver outside Nairobi?", a: "Yes, countrywide via our courier partners. Delivery fees are shown at checkout by zone." },
+    { q: "Do you deliver outside Nairobi?", a: "Yes, countrywide via our courier partners — delivery is always free." },
     { q: "Can I cancel my order?", a: "Orders can be cancelled while still awaiting payment or before packaging begins. Contact us on WhatsApp and we'll help." },
     { q: "What happens if an item is unavailable?", a: "We'll reach out immediately and offer an equally beautiful substitute, or a full refund — your choice." }
   ],

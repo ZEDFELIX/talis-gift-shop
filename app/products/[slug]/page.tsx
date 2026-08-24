@@ -32,7 +32,6 @@ export default async function ProductPage({ params }: Props) {
   if (!product || !product.active) notFound();
 
   const related = await getRelatedProducts(product.categoryId, product.id);
-  const zones = await db.deliveryZone.findMany({ where: { active: true } });
 
   const available = product.inventory ? Math.max(0, product.inventory.quantity - product.inventory.reserved) : 0;
   const ratings = product.reviews.map((r) => r.rating);
@@ -104,7 +103,7 @@ export default async function ProductPage({ params }: Props) {
         />
       </div>
 
-      <InfoTabs description={product.description} included={product.whatsIncluded} personalizable={product.personalizable} zones={zones} />
+      <InfoTabs description={product.description} included={product.whatsIncluded} personalizable={product.personalizable} />
       <ReviewsSection
         productSlug={product.slug}
         rating={avg}

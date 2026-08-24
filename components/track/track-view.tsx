@@ -11,7 +11,7 @@ import { formatDate, formatKSh } from "@/lib/utils";
 type TrackedOrder = {
   orderNumber: string; status: string; createdAt: string; estimatedDelivery: string | null;
   total: number; subtotal: number; discountTotal: number; deliveryFee: number;
-  zoneName: string | null; addressLine: string; city: string;
+  addressLine: string; city: string;
   items: { name: string; imageUrl: string | null; unitPrice: number; qty: number }[];
   events: { status: string; note: string | null; createdAt: string }[];
 };
@@ -81,7 +81,7 @@ export function TrackView({ initialOrder }: { initialOrder?: string }) {
           <dl className="space-y-1.5 border-t border-beige pt-3 text-sm">
             <div className="flex justify-between"><dt className="text-espresso/60">Subtotal</dt><dd>{formatKSh(result.subtotal)}</dd></div>
             {result.discountTotal > 0 && <div className="flex justify-between text-green-800"><dt>Discount</dt><dd>-{formatKSh(result.discountTotal)}</dd></div>}
-            <div className="flex justify-between"><dt className="text-espresso/60">Delivery — {result.zoneName ?? result.city}</dt><dd>{result.deliveryFee === 0 ? "Free" : formatKSh(result.deliveryFee)}</dd></div>
+            <div className="flex justify-between"><dt className="text-espresso/60">Delivery — {result.city}</dt><dd>{result.deliveryFee === 0 ? "Free" : formatKSh(result.deliveryFee)}</dd></div>
             <div className="flex justify-between border-t border-beige pt-2 font-semibold"><dt>Total</dt><dd>{formatKSh(result.total)}</dd></div>
           </dl>
 

@@ -4,18 +4,16 @@ import { useState } from "react";
 import { submitReview } from "@/actions/misc";
 import { Stars } from "@/components/ui";
 import { cn, formatDate } from "@/lib/utils";
-import type { DeliveryZoneInfo } from "@/components/product/info-data";
 
 type Review = {
   id: string; name: string; rating: number; title: string | null;
   body: string; createdAt: string; verified?: boolean;
 };
 
-export function InfoTabs({ description, included, personalizable, zones }: {
+export function InfoTabs({ description, included, personalizable }: {
   description: string;
   included: string;
   personalizable: boolean;
-  zones: DeliveryZoneInfo[];
 }) {
   const [open, setOpen] = useState<string>("description");
   const tabs = [
@@ -40,15 +38,8 @@ export function InfoTabs({ description, included, personalizable, zones }: {
       label: "Delivery",
       content: (
         <div className="space-y-3 text-sm leading-relaxed text-espresso/75">
-          <p>Nairobi orders confirmed before 12pm qualify for same-day or next-day delivery. Up-country arrives in 2–3 working days via courier.</p>
-          <ul className="divide-y divide-beige/70 border border-beige/70 bg-white/60">
-            {zones.map((z) => (
-              <li key={z.id} className="flex items-center justify-between px-4 py-2.5">
-                <span>{z.name}</span>
-                <span className="font-semibold">KSh {z.fee.toLocaleString("en-KE")}</span>
-              </li>
-            ))}
-          </ul>
+          <p className="font-semibold text-ink">Free delivery, countrywide.</p>
+          <p>Nairobi orders confirmed before 12pm qualify for same-day or next-day delivery. Up-country arrives in 2–3 working days via courier — at no extra cost.</p>
         </div>
       )
     },

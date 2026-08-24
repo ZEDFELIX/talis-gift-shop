@@ -1,6 +1,5 @@
-import { db } from "@/lib/db";
 import { getSettings } from "@/lib/settings";
-import { saveSettings, updateDeliveryZoneFee } from "@/app/admin/actions";
+import { saveSettings } from "@/app/admin/actions";
 import { Field, Input, Textarea } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
@@ -23,7 +22,7 @@ export default async function AdminSettingsPage({
 }: {
   searchParams: { saved?: string };
 }) {
-  const [settings, zones] = await Promise.all([getSettings(), db.deliveryZone.findMany({ orderBy: { fee: "asc" } })]);
+  const settings = await getSettings();
   const values: Record<string, string> = {
     announcement: settings.announcement,
     heroTitle: settings.heroTitle,
@@ -76,33 +75,6 @@ export default async function AdminSettingsPage({
           Save settings
         </button>
       </form>
-
-      <section className="border border-beige bg-white p-5 sm:p-6">
-        <h2 className="font-serif text-xl text-ink">Delivery zones</h2>
-        <p className="mt-1 text-xs text-espresso/50">Fees apply at checkout per zone.</p>
-        <ul className="mt-3 divide-y divide-beige/70">
-          {zones.map((z) => (
-            <li key={z.id}>
-              <form action={updateDeliveryZoneFee} className="flex flex-wrap items-end gap-3 py-3.5">
-                <input type="hidden" name="id" value={z.id} />
-                <div className="min-w-[140px] flex-1">
-                  <p className="text-sm font-semibold">{z.name}</p>
-                  {z.etaNote && <p className="text-xs text-espresso/45">{z.etaNote}</p>}
-                </div>
-                <label className="text-xs text-espresso/55">
-                  Fee
-                  <Input name="fee" type="number" min={0} defaultValue={z.fee} className="w-28 py-1.5" aria-label={`Fee for ${z.name}`} />
-                </label>
-                <label className="min-w-[180px] flex-1 text-xs text-espresso/55">
-                  ETA note
-                  <Input name="etaNote" defaultValue={z.etaNote ?? ""} className="py-1.5" aria-label={`ETA for ${z.name}`} />
-                </label>
-                <button className="btn-base bg-ink px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-ivory hover:bg-gold hover:text-ink">Save</button>
-              </form>
-            </li>
-          ))}
-        </ul>
-      </section>
 
       <section className="border border-beige bg-white p-5 text-sm leading-relaxed text-espresso/65">
         <h2 className="font-serif text-xl text-ink">Payments</h2>

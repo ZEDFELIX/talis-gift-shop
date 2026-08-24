@@ -330,14 +330,3 @@ export async function saveSettings(formData: FormData): Promise<void> {
   redirect("/admin/settings?saved=1");
 }
 
-export async function updateDeliveryZoneFee(formData: FormData): Promise<void> {
-  await requireAdmin();
-  const id = String(formData.get("id") ?? "");
-  const fee = Number(formData.get("fee"));
-  const etaNote = String(formData.get("etaNote") ?? "").trim();
-  if (id && fee >= 0) {
-    await db.deliveryZone.update({ where: { id }, data: { fee, etaNote: etaNote || null } });
-  }
-  revalidatePath("/admin/settings");
-  revalidatePath("/delivery");
-}
