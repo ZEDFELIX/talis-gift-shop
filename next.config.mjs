@@ -1,5 +1,8 @@
 const nextConfig = {
-  images: { unoptimized: true }
+  images: { unoptimized: true },
+  outputFileTracingIncludes: {
+    "/**": ["./prisma/dev.db"]
+  }
 };
 
 export default nextConfig;
