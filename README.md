@@ -56,6 +56,14 @@ MPESA_WEBHOOK_SECRET="set-a-long-random-string"
 
 ## Notes for production
 
-- Swap SQLite → Postgres: change the `provider` in `prisma/schema.prisma`, update `DATABASE_URL`, run `npx prisma db push`. The schema intentionally avoids SQLite-only features.
+- Swap SQLite → Postgres: change the `provider` in `prisma/schema.prisma`, update `DATABASE_URL`, run `npx prisma db push`. The schema intentionally avoids SQLite-only features. Required before taking real payments on Vercel (serverless FS is ephemeral).
 - Set real Daraja credentials; the payment provider abstraction lives in `lib/payments.ts`.
 - Serve placeholder art from `public/images/*.svg` — replace with real photography (same filenames) without code changes.
+
+## Deployment
+
+- **GitHub**: push to `main` — Vercel is connected and auto-deploys every push to production (https://talis-gift-shop.vercel.app).
+- **Manual**: `vercel deploy --prod` from the project root.
+- Required Vercel env vars (Production): `DATABASE_URL`, `AUTH_SECRET`, `NEXT_PUBLIC_SITE_URL`, plus `MPESA_*` for payments.
+- Health check: `GET /api/health` returns service status, active product count and M-PESA configuration state.
+
