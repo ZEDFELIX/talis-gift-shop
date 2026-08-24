@@ -418,8 +418,8 @@ async function main() {
 
   const settings = {
     announcement: "",
-    whatsapp: "254712345678",
-    phone: "+254 712 345 678",
+    whatsapp: "254711436169",
+    phone: "+254 711 436 169",
     email: "hello@talisgiftshop.co.ke",
     address: "The Alchemist, Westlands, Nairobi, Kenya",
     hours: "Mon – Sat: 9:00am – 7:00pm",
