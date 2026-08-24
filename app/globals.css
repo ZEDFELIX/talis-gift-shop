@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --talis-black: #0b0b0b;
+  --talis-ivory: #f7f1e7;
+  --talis-gold: #c9a45c;
+  --talis-champagne: #e4d1a5;
+  --talis-espresso: #241b16;
+  --talis-beige: #d8cbb8;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-ivory text-espresso font-sans antialiased; }
+  ::selection { background: var(--talis-champagne); color: var(--talis-espresso); }
+  input, textarea, select { @apply focus:outline-none; }
+}
+
+@layer components {
+  .container-talis { @apply mx-auto w-full max-w-shell px-4 sm:px-6 lg:px-10; }
+  .eyebrow { @apply text-[11px] font-semibold uppercase tracking-[0.28em] text-gold; }
+  .h-serif { @apply font-serif font-medium tracking-tight; }
+  .field-input {
+    @apply w-full rounded-sm border border-beige bg-white px-3.5 py-2.5 text-sm text-espresso placeholder:text-espresso/35 transition focus:border-gold focus:ring-2 focus:ring-gold/25;
+  }
+  .btn-base {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm text-[12px] font-semibold uppercase tracking-[0.18em] transition-all duration-300 disabled:pointer-events-none disabled:opacity-40;
+  }
+  .link-underline { @apply relative after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-gold after:transition-transform hover:after:scale-x-100; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+@layer utilities {
+  .talis-pattern {
+    background-image: radial-gradient(circle at 25% 25%, rgba(201, 164, 92, 0.09) 0 2px, transparent 3px),
+      radial-gradient(circle at 75% 75%, rgba(201, 164, 92, 0.09) 0 2px, transparent 3px);
+    background-size: 42px 42px;
+  }
+  .text-balance { text-wrap: balance; }
+}
