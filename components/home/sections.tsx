@@ -97,6 +97,7 @@ export function FeaturedCollections({ collections }: {
 }
 
 export function BestSellers({ products }: { products: ProductCardData[] }) {
+  if (products.length === 0) return null;
   return (
     <section className="container-talis py-16 md:py-20">
       <SectionHeading eyebrow="Loved across Nairobi" title="Best Sellers" sub="The gifts our customers keep coming back for." />
@@ -130,6 +131,7 @@ export function GiftBoxPromo() {
 }
 
 export function NewArrivals({ products }: { products: ProductCardData[] }) {
+  if (products.length === 0) return null;
   return (
     <section className="bg-white py-16 md:py-20">
       <div className="container-talis">

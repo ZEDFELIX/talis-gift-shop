@@ -1,7 +1,9 @@
+"use client";
+
 import Link from "next/link";
+import { useRef, useState } from "react";
 import { saveProduct } from "@/app/admin/actions";
 import { Field, Input, Textarea, Select, Divider } from "@/components/ui";
-
 export type ProductFormData = {
   id?: string;
   name: string;
@@ -27,6 +29,21 @@ export type ProductFormData = {
   collectionIds: string[];
 };
 
+async function fileToDataUrl(file: File): Promise<string> {
+  const bitmap = await createImageBitmap(file);
+  const max = 1200;
+  const scale = Math.min(1, max / Math.max(bitmap.width, bitmap.height));
+  const w = Math.round(bitmap.width * scale);
+  const h = Math.round(bitmap.height * scale);
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Canvas unavailable");
+  ctx.drawImage(bitmap, 0, 0, w, h);
+  return canvas.toDataURL("image/jpeg", 0.82);
+}
+
 export function ProductForm({
   product,
   categories,
@@ -38,6 +55,29 @@ export function ProductForm({
   occasions: { id: string; name: string }[];
   collections: { id: string; name: string }[];
 }) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [imagesText, setImagesText] = useState(product?.images ?? "");
+  const previews = imagesText.split("\n").map((s) => s.trim()).filter(Boolean);
+  const [uploading, setUploading] = useState(false);
+
+  const onPickFiles = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    setUploading(true);
+    try {
+      const added: string[] = [];
+      for (const file of Array.from(files)) {
+        if (!file.type.startsWith("image/")) continue;
+        added.push(await fileToDataUrl(file));
+      }
+      if (added.length > 0) {
+        setImagesText((prev) => (prev.trimEnd() ? `${prev.trimEnd()}\n${added.join("\n")}` : added.join("\n")));
+      }
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
+
   return (
     <form action={saveProduct} className="space-y-6">
       {product?.id && <input type="hidden" name="id" value={product.id} />}
@@ -80,10 +120,36 @@ export function ProductForm({
           </section>
 
           <section className="border border-beige bg-white p-5 sm:p-6">
-            <h2 className="font-serif text-xl text-ink">Media</h2>
+            <h2 className="font-serif text-xl text-ink">Photos</h2>
             <Divider />
-            <Field label="Image URLs" hint="One per line — first is the cover">
-              <Textarea name="images" rows={4} defaultValue={product?.images} placeholder={"/images/candle.svg\n/images/box-open.svg"} />
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() => fileRef.current?.click()}
+                disabled={uploading}
+                className="btn-base border border-gold bg-champagne/20 px-4 py-2 text-sm font-semibold text-ink hover:bg-gold/30 disabled:opacity-50"
+              >
+                {uploading ? "Processing…" : "+ Upload photos from device"}
+              </button>
+              <span className="text-xs text-espresso/50">JPG/PNG · first photo becomes the cover · auto-resized for the web</span>
+              <input ref={fileRef} type="file" accept="image/*" multiple hidden onChange={(e) => void onPickFiles(e.target.files)} />
+            </div>
+            {previews.length > 0 && (
+              <ul className="mt-4 flex flex-wrap gap-3">
+                {previews.map((src, i) => (
+                  <li key={`${i}-${src.slice(-12)}`} className="relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={src} alt="" className="h-20 w-20 border border-beige object-cover" />
+                    {i === 0 && (
+                      <span className="absolute left-0 top-0 bg-gold px-1 text-[10px] font-bold uppercase text-ink">Cover</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <Field label="Image list" hint="Uploaded photos appear here automatically — one per line. You can also paste URLs." className="mt-4">
+              <Textarea name="images" rows={4} value={imagesText} onChange={(e) => setImagesText(e.target.value)}
+                placeholder={"Upload above, or paste a link like https://…"} className="font-mono text-[11px]" />
             </Field>
             <Field label="Variants" hint='One per line as "Name: Option|Option"' className="mt-4">
               <Textarea name="variants" rows={3} defaultValue={product?.variants} placeholder={"Scent: Vanilla|Rose|Sandalwood"} />
