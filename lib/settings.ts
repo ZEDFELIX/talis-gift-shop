@@ -13,7 +13,6 @@ export type SiteSettings = {
   hours: string;
   instagramHandle: string;
   instagramImages: string[];
-  freeDeliveryThreshold: number;
   mpesaPaybill: string;
   giftBoxFees: {
     small: number; medium: number; large: number; premium: number;
@@ -25,7 +24,7 @@ export type SiteSettings = {
 };
 
 export const DEFAULT_SETTINGS: SiteSettings = {
-  announcement: "Free Nairobi delivery on orders over KSh 10,000",
+  announcement: "",
   heroTitle: "Beyond the Feeling",
   heroSub: "Thoughtful gifts for the moments that matter.",
   heroDesc: "Discover beautifully curated gifts designed to make every moment unforgettable.",
@@ -39,7 +38,6 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     "/images/box.svg", "/images/flowers.svg", "/images/candle.svg",
     "/images/jewelry.svg", "/images/selfcare.svg", "/images/mug.svg"
   ],
-  freeDeliveryThreshold: 10000,
   mpesaPaybill: "Till 123456",
   giftBoxFees: {
     small: 300, medium: 500, large: 800, premium: 1200,
@@ -70,7 +68,6 @@ export async function getSettings(): Promise<SiteSettings> {
   return {
     ...DEFAULT_SETTINGS,
     ...map,
-    freeDeliveryThreshold: Number(map.freeDeliveryThreshold ?? DEFAULT_SETTINGS.freeDeliveryThreshold),
     instagramImages: parseJson(map.instagramImages, DEFAULT_SETTINGS.instagramImages),
     giftBoxFees: parseJson(map.giftBoxFees, DEFAULT_SETTINGS.giftBoxFees),
     faqs: parseJson(map.faqs, DEFAULT_SETTINGS.faqs),

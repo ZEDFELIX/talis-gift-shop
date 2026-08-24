@@ -315,7 +315,7 @@ export async function deleteCollection(formData: FormData): Promise<void> {
 
 const SETTINGS_KEYS = [
   "announcement", "heroTitle", "heroSub", "heroDesc", "whatsapp", "phone", "email",
-  "address", "hours", "instagramHandle", "instagramImages", "freeDeliveryThreshold",
+  "address", "hours", "instagramHandle", "instagramImages",
   "mpesaPaybill", "giftBoxFees"
 ] as const;
 

@@ -11,9 +11,8 @@ import { cn, formatKSh } from "@/lib/utils";
 
 type Zone = { id: string; name: string; fee: number; etaNote: string | null };
 
-export function CheckoutView({ zones, freeThreshold, defaultName, defaultEmail, defaultPhone }: {
+export function CheckoutView({ zones, defaultName, defaultEmail, defaultPhone }: {
   zones: Zone[];
-  freeThreshold: number;
   defaultName?: string;
   defaultEmail?: string;
   defaultPhone?: string;
@@ -27,7 +26,7 @@ export function CheckoutView({ zones, freeThreshold, defaultName, defaultEmail, 
 
   const zone = zones.find((z) => z.id === zoneId) ?? zones[0];
   const discountOff = cart.discount?.amountOff ?? 0;
-  const deliveryFee = zone && cart.subtotal >= freeThreshold && zone.name.startsWith("Nairobi") ? 0 : (zone?.fee ?? 0);
+  const deliveryFee = zone?.fee ?? 0;
 
   const total = Math.max(0, cart.subtotal - discountOff) + deliveryFee;
 

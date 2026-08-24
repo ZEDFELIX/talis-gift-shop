@@ -39,9 +39,6 @@ export default async function DeliveryPage() {
             </li>
           ))}
         </ul>
-        <p className="border-t border-dashed border-gold/50 bg-champagne/10 px-5 py-3 text-sm text-espresso/75">
-          Free delivery on Nairobi orders over <strong>KSh {settings.freeDeliveryThreshold.toLocaleString("en-KE")}</strong>.
-        </p>
       </section>
 
       <section className="mt-10 grid gap-6 sm:grid-cols-2">

@@ -11,9 +11,6 @@ export function CartDrawer() {
   const open = cart.drawerOpen;
 
   if (!open) return null;
-  const freeThreshold = 10000;
-  const remaining = Math.max(0, freeThreshold - cart.subtotal);
-  const progress = Math.min(100, Math.round((cart.subtotal / freeThreshold) * 100));
 
   return (
     <div className="fixed inset-0 z-[75]" role="dialog" aria-modal="true" aria-label="Cart">
@@ -35,19 +32,6 @@ export function CartDrawer() {
           </div>
         ) : (
           <>
-            <div className="border-b border-beige/70 bg-white px-5 py-3">
-              <p className="mb-2 text-xs text-espresso/70">
-                {remaining > 0 ? (
-                  <>You&apos;re <strong className="text-gold">{formatKSh(remaining)}</strong> away from free Nairobi delivery</>
-                ) : (
-                  <span className="font-semibold uppercase tracking-[0.14em] text-gold">Free Nairobi delivery unlocked</span>
-                )}
-              </p>
-              <div className="h-1 w-full overflow-hidden rounded-full bg-beige/50">
-                <div className="h-full rounded-full bg-gold transition-all duration-500" style={{ width: `${progress}%` }} />
-              </div>
-            </div>
-
             <ul className="flex-1 divide-y divide-beige/60 overflow-y-auto px-5">
               {cart.items.map((line) => (
                 <li key={line.key} className="flex gap-4 py-4">

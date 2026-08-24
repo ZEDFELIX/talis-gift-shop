@@ -9,7 +9,7 @@ import { EmptyState } from "@/components/shop/catalog-ui";
 import { GiftIcon, MinusIcon, PlusIcon, TrashIcon, ArrowRightIcon } from "@/components/icons";
 import { formatKSh } from "@/lib/utils";
 
-export function CartView({ freeThreshold }: { freeThreshold: number }) {
+export function CartView() {
   const cart = useCart();
   const toast = useToast();
   const [code, setCode] = useState("");
@@ -167,11 +167,6 @@ export function CartView({ freeThreshold }: { freeThreshold: number }) {
             Proceed to Checkout <ArrowRightIcon width={15} height={15} />
           </ButtonLink>
 
-          {cart.subtotal < freeThreshold && (
-            <p className="mt-3 text-center text-xs text-espresso/55">
-              Add {formatKSh(freeThreshold - cart.subtotal)} more for free Nairobi delivery
-            </p>
-          )}
           <Link href="/shop" className="mt-4 block text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-espresso/60 hover:text-gold">
             Continue shopping
           </Link>

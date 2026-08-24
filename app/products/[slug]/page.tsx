@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { getProductBySlug, getRelatedProducts, toCardData } from "@/lib/catalog";
-import { getSettings } from "@/lib/settings";
 import { ProductGallery } from "@/components/product/gallery";
 import { BuyBox } from "@/components/product/buy-box";
 import { InfoTabs, ReviewsSection } from "@/components/product/tabs-reviews";
@@ -32,7 +31,7 @@ export default async function ProductPage({ params }: Props) {
   const product = await getProductBySlug(params.slug);
   if (!product || !product.active) notFound();
 
-  const [related, settings] = await Promise.all([getRelatedProducts(product.categoryId, product.id), getSettings()]);
+  const related = await getRelatedProducts(product.categoryId, product.id);
   const zones = await db.deliveryZone.findMany({ where: { active: true } });
 
   const available = product.inventory ? Math.max(0, product.inventory.quantity - product.inventory.reserved) : 0;
@@ -119,7 +118,6 @@ export default async function ProductPage({ params }: Props) {
           verified: Boolean(r.userId)
         }))}
       />
-      <p className="sr-only">Delivery across Kenya. Free Nairobi delivery over KSh {settings.freeDeliveryThreshold.toLocaleString("en-KE")}.</p>
 
       {related.length > 0 && (
         <section className="mt-20 border-t border-beige pt-14">

@@ -57,9 +57,6 @@ export default async function AdminSettingsPage({
                 <Input name={key} defaultValue={values[key]} />
               </Field>
             ))}
-            <Field label="Free delivery threshold (KSh)" className="sm:col-span-2">
-              <Input name="freeDeliveryThreshold" type="number" min={0} defaultValue={settings.freeDeliveryThreshold} />
-            </Field>
           </div>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <Field label="M-PESA paybill / till" hint="Shown when payments are not yet configured">

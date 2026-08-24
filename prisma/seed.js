@@ -417,7 +417,7 @@ async function main() {
   });
 
   const settings = {
-    announcement: "Free Nairobi delivery on orders over KSh 10,000",
+    announcement: "",
     whatsapp: "254712345678",
     phone: "+254 712 345 678",
     email: "hello@talisgiftshop.co.ke",
@@ -425,7 +425,6 @@ async function main() {
     hours: "Mon – Sat: 9:00am – 7:00pm",
     instagramHandle: "@talisgiftshop",
     instagramImages: JSON.stringify(["/images/box.svg", "/images/flowers.svg", "/images/candle.svg", "/images/jewelry.svg", "/images/selfcare.svg", "/images/mug.svg"]),
-    freeDeliveryThreshold: "10000",
     mpesaPaybill: "M-PESA Till 123456 (demo)",
     heroTitle: "Beyond the Feeling",
     heroSub: "Thoughtful gifts for the moments that matter.",

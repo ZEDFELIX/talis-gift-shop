@@ -21,7 +21,6 @@ export default async function CheckoutPage() {
       <h1 className="h-serif mb-10 text-center text-3xl text-ink sm:text-4xl">CHECKOUT</h1>
       <CheckoutView
         zones={zones.map((z) => ({ id: z.id, name: z.name, fee: z.fee, etaNote: z.etaNote }))}
-        freeThreshold={settings.freeDeliveryThreshold}
         defaultName={user?.name}
         defaultEmail={user?.email}
         defaultPhone={user?.phone ?? undefined}

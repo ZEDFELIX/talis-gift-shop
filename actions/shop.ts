@@ -213,7 +213,7 @@ export async function createOrder(payload: unknown): Promise<CreateOrderResult> 
     }
   }
 
-  const deliveryFee = subtotal >= settings.freeDeliveryThreshold && zone.name.startsWith("Nairobi") ? 0 : zone.fee;
+  const deliveryFee = zone.fee;
   const total = Math.max(0, subtotal - discountTotal) + deliveryFee;
 
   const user = await getSessionUser();
