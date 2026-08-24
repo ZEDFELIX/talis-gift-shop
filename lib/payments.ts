@@ -24,7 +24,7 @@ export interface PaymentProvider {
   readonly name: string;
   isConfigured(): boolean;
   initializePayment(input: InitializePaymentInput): Promise<PaymentInitResult>;
-  handleWebhook(headers: Headers, body: string): Promise<WebhookResult>;
+  handleWebhook(url: string, headers: Headers, body: string): Promise<WebhookResult>;
   checkPaymentStatus(reference: string): Promise<{ status: "PENDING" | "PAID" | "FAILED" }>;
   refundPayment(reference: string, amount?: number): Promise<{ ok: boolean; message: string }>;
 }
@@ -35,6 +35,10 @@ function normalizePhone(phone: string) {
   if (digits.startsWith("0")) return `254${digits.slice(1, 10)}`;
   if (digits.startsWith("7") || digits.startsWith("1")) return `254${digits}`;
   return digits;
+}
+
+function callbackSecret() {
+  return process.env.MPESA_WEBHOOK_SECRET || process.env.AUTH_SECRET || "";
 }
 
 export class MpesaPaymentProvider implements PaymentProvider {
@@ -53,10 +57,23 @@ export class MpesaPaymentProvider implements PaymentProvider {
     );
   }
 
+  private credentials() {
+    return {
+      key: process.env.MPESA_CONSUMER_KEY ?? "",
+      secret: process.env.MPESA_CONSUMER_SECRET ?? "",
+      shortcode: process.env.MPESA_SHORTCODE ?? "",
+      passkey: process.env.MPESA_PASSKEY ?? ""
+    };
+  }
+
+  private password(timestamp: string) {
+    const { shortcode, passkey } = this.credentials();
+    return Buffer.from(`${shortcode}${passkey}${timestamp}`).toString("base64");
+  }
+
   private async accessToken(): Promise<string> {
-    const auth = Buffer.from(
-      `${process.env.MPESA_CONSUMER_KEY}:${process.env.MPESA_CONSUMER_SECRET}`
-    ).toString("base64");
+    const { key, secret } = this.credentials();
+    const auth = Buffer.from(`${key}:${secret}`).toString("base64");
     const res = await fetch(`${this.env}/oauth/v1/generate?grant_type=client_credentials`, {
       headers: { Authorization: `Basic ${auth}` },
       cache: "no-store"
@@ -73,22 +90,25 @@ export class MpesaPaymentProvider implements PaymentProvider {
     try {
       const token = await this.accessToken();
       const timestamp = new Date().toISOString().replace(/[-T:.Z]/g, "").slice(0, 14);
-      const password = Buffer.from(`${process.env.MPESA_SHORTCODE}${process.env.MPESA_PASSKEY}${timestamp}`).toString("base64");
+      const { shortcode } = this.credentials();
+      const txnType = process.env.MPESA_TXN_TYPE || "CustomerBuyGoodsOnline";
+      const site = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "";
+      const callBackUrl = `${site}/api/webhooks/mpesa?secret=${encodeURIComponent(callbackSecret())}`;
       const res = await fetch(`${this.env}/mpesa/stkpush/v1/processrequest`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          BusinessShortCode: process.env.MPESA_SHORTCODE,
-          Password: password,
+          BusinessShortCode: shortcode,
+          Password: this.password(timestamp),
           Timestamp: timestamp,
-          TransactionType: "CustomerBuyGoodsOnline",
-          Amount: input.amount,
+          TransactionType: txnType,
+          Amount: Math.round(input.amount),
           PartyA: normalizePhone(input.phone),
-          PartyB: process.env.MPESA_SHORTCODE,
+          PartyB: shortcode,
           PhoneNumber: normalizePhone(input.phone),
-          CallBackURL: `${process.env.NEXT_PUBLIC_SITE_URL || ""}/api/webhooks/mpesa`,
-          AccountReference: input.reference,
-          TransactionDesc: input.description
+          CallBackURL: callBackUrl,
+          AccountReference: input.reference.slice(0, 12),
+          TransactionDesc: input.description.slice(0, 60)
         }),
         cache: "no-store"
       });
@@ -102,11 +122,20 @@ export class MpesaPaymentProvider implements PaymentProvider {
     }
   }
 
-  async handleWebhook(headers: Headers, body: string): Promise<WebhookResult> {
-    const expected = process.env.MPESA_WEBHOOK_SECRET;
+  async handleWebhook(url: string, headers: Headers, body: string): Promise<WebhookResult> {
+    const expected = callbackSecret();
     if (!expected) return { verified: false, success: false };
-    const provided = headers.get("x-callback-secret");
+
+    let provided = headers.get("x-callback-secret");
+    if (!provided) {
+      try {
+        provided = new URL(url).searchParams.get("secret");
+      } catch {
+        provided = null;
+      }
+    }
     if (!provided || provided !== expected) return { verified: false, success: false };
+
     let parsed: Record<string, any>;
     try {
       parsed = JSON.parse(body);
@@ -131,8 +160,29 @@ export class MpesaPaymentProvider implements PaymentProvider {
     };
   }
 
-  async checkPaymentStatus(): Promise<{ status: "PENDING" | "PAID" | "FAILED" }> {
-    return { status: "PENDING" };
+  async checkPaymentStatus(reference: string): Promise<{ status: "PENDING" | "PAID" | "FAILED" }> {
+    if (!this.isConfigured() || !reference) return { status: "PENDING" };
+    try {
+      const token = await this.accessToken();
+      const timestamp = new Date().toISOString().replace(/[-T:.Z]/g, "").slice(0, 14);
+      const { shortcode } = this.credentials();
+      const res = await fetch(`${this.env}/mpesa/stkpushquery/v1/query`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          BusinessShortCode: shortcode,
+          Password: this.password(timestamp),
+          Timestamp: timestamp,
+          CheckoutRequestID: reference
+        }),
+        cache: "no-store"
+      });
+      const data = (await res.json()) as { ResultCode?: string | number; errorCode?: string; errorMessage?: string };
+      if (data.ResultCode === undefined || data.ResultCode === null) return { status: "PENDING" };
+      return String(data.ResultCode) === "0" ? { status: "PAID" } : { status: "FAILED" };
+    } catch {
+      return { status: "PENDING" };
+    }
   }
 
   async refundPayment(reference: string): Promise<{ ok: boolean; message: string }> {

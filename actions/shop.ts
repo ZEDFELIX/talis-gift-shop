@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 import { getSettings } from "@/lib/settings";
 import { rateLimit } from "@/lib/rate-limit";
+import { confirmOrderPaidByReference, markPaymentFailedByReference } from "@/lib/payment-confirm";
 import { orderNumber } from "@/lib/utils";
 
 export type ActionResult<T = undefined> = { ok: true; message?: string } & (T extends undefined ? Record<string, unknown> : T);
@@ -344,6 +345,30 @@ export async function initiateMpesaPayment(orderNumber: string): Promise<{ ok: b
   }
 
   return { ok: result.ok, configured: true, message: result.message };
+}
+
+export async function pollMpesaPayment(orderNumber: string): Promise<{ status: "PENDING" | "PAID" | "FAILED"; message?: string }> {
+  const order = await db.order.findUnique({ where: { orderNumber }, include: { payment: true } });
+  if (!order?.payment) return { status: "PENDING" };
+  if (order.payment.status === "PAID") return { status: "PAID", message: "Payment received! Your order is confirmed." };
+  if (order.status === "CANCELLED" || order.status === "REFUNDED") return { status: "FAILED", message: "This order is no longer payable." };
+
+  const reference = order.payment.reference;
+  if (!reference || !reference.startsWith("ws")) return { status: "PENDING" };
+
+  const { getPaymentProvider } = await import("@/lib/payments");
+  const provider = getPaymentProvider();
+  const st = await provider.checkPaymentStatus(reference);
+
+  if (st.status === "PAID") {
+    await confirmOrderPaidByReference(reference);
+    return { status: "PAID", message: "Payment received! Your order is confirmed." };
+  }
+  if (st.status === "FAILED") {
+    await markPaymentFailedByReference(reference);
+    return { status: "FAILED", message: "The M-PESA request failed or was cancelled. Tap below to try again." };
+  }
+  return { status: "PENDING" };
 }
 
 export async function getOrderForReorder(orderNumber: string) {

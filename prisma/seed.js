@@ -410,9 +410,9 @@ async function main() {
 
   await db.deliveryZone.createMany({
     data: [
-      { name: "Nairobi — CBD & Westlands", fee: 300, etaNote: "Same-day before 12pm orders" },
-      { name: "Nairobi — Suburbs", fee: 350, etaNote: "Within 24 hours" },
-      { name: "Rest of Kenya", fee: 500, etaNote: "2–3 working days" }
+      { name: "Nairobi — CBD & Westlands", fee: 0, etaNote: "Same-day before 12pm orders" },
+      { name: "Nairobi — Suburbs", fee: 0, etaNote: "Within 24 hours" },
+      { name: "Rest of Kenya", fee: 0, etaNote: "2–3 working days" }
     ]
   });
 
