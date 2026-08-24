@@ -21,9 +21,17 @@ export async function registerUser(_prev: unknown, formData: FormData): Promise<
   const existing = await db.user.findUnique({ where: { email } });
   if (existing) return { ok: false, message: "An account with this email already exists." };
 
-  const user = await db.user.create({
-    data: { name, email, phone: phone || null, passwordHash: hashPassword(password) }
-  });
+  let user;
+  try {
+    user = await db.user.create({
+      data: { name, email, phone: phone || null, passwordHash: hashPassword(password) }
+    });
+  } catch (e) {
+    if ((e as { code?: string }).code === "P2002") {
+      return { ok: false, message: "An account with this email already exists." };
+    }
+    throw e;
+  }
   await setSessionCookie(user.id);
   redirect(next);
 }
