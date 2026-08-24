@@ -91,7 +91,7 @@ export class MpesaPaymentProvider implements PaymentProvider {
       const token = await this.accessToken();
       const timestamp = new Date().toISOString().replace(/[-T:.Z]/g, "").slice(0, 14);
       const { shortcode } = this.credentials();
-      const txnType = process.env.MPESA_TXN_TYPE || "CustomerBuyGoodsOnline";
+      const txnType = process.env.MPESA_TXN_TYPE || "CustomerPayBillOnline";
       const site = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "";
       const callBackUrl = `${site}/api/webhooks/mpesa?secret=${encodeURIComponent(callbackSecret())}`;
       const res = await fetch(`${this.env}/mpesa/stkpush/v1/processrequest`, {
