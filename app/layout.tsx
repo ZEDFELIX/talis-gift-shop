@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B0B0B",
+  themeColor: "#071F17",
   width: "device-width",
   initialScale: 1
 };
@@ -55,7 +55,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Montserrat:wght@400;500;600;700&family=Great+Vibes&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Montserrat:wght@500;600;700;800&family=Great+Vibes&display=swap"
           rel="stylesheet"
         />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
@@ -72,9 +72,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Chat with Talis on WhatsApp"
-            className="fixed bottom-[84px] right-4 z-[65] flex h-12 w-12 items-center justify-center rounded-full bg-ink text-gold shadow-lift transition-transform hover:scale-105 md:bottom-6 md:right-6"
+            className="fixed bottom-[84px] right-4 z-[65] flex h-12 w-12 items-center justify-center rounded-full bg-gold text-ink shadow-glow transition-shadow hover:scale-105 hover:shadow-glow md:bottom-6 md:right-6"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4.5 19.5 5.8 16A7.5 7.5 0 1 1 9 18.6l-4.5.9Z" /></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4.5 19.5 5.8 16A7.5 7.5 0 1 1 9 18.6l-4.5.9Z" /></svg>
           </a>
         </Providers>
       </body>

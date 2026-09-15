@@ -277,7 +277,7 @@ export function GiftBoxBuilder({ products, fees, occasions }: {
               "flex cursor-pointer items-start gap-3 border p-4 transition-colors",
               wrapping ? "border-gold bg-champagne/10" : "border-beige bg-white"
             )}>
-              <input type="checkbox" checked={wrapping} onChange={(e) => setWrapping(e.target.checked)} className="mt-1 h-4 w-4 accent-[#C9A45C]" />
+              <input type="checkbox" checked={wrapping} onChange={(e) => setWrapping(e.target.checked)} className="mt-1 h-4 w-4 accent-[#E9B63C]" />
               <span>
                 <span className="block text-sm font-semibold">Premium gift wrapping</span>
                 <span className="block text-xs text-espresso/55">Ivory tissue, gold wax seal &amp; satin bow — {formatKSh(fees.wrapping)}</span>

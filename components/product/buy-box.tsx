@@ -106,7 +106,7 @@ export function BuyBox({
 
       {product.variants.map((v) => (
         <div key={v.id} className="mt-6">
-          <h3 className="mb-2 text-[12px] font-semibold uppercase tracking-[0.16em] text-espresso/80">{v.name}</h3>
+          <h3 className="mb-2 text-[12px] font-bold uppercase tracking-[0.16em] text-espresso/80">{v.name}</h3>
           <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={v.name}>
             {v.options.map((opt) => {
               const active = variant[v.name] === opt;
@@ -117,8 +117,8 @@ export function BuyBox({
                   aria-checked={active}
                   onClick={() => setVariant((s) => ({ ...s, [v.name]: opt }))}
                   className={cn(
-                    "min-w-[52px] border px-4 py-2.5 text-sm transition-all",
-                    active ? "border-gold bg-gold/10 font-semibold text-espresso ring-1 ring-gold/50" : "border-beige bg-white text-espresso/70 hover:border-gold hover:text-gold"
+                    "min-w-[52px] border px-4 py-2.5 text-sm font-semibold transition-all",
+                    active ? "border-gold bg-gold text-ink shadow-glow" : "border-beige bg-white text-espresso/70 hover:border-gold hover:text-gold"
                   )}
                 >
                   {opt}
@@ -130,14 +130,14 @@ export function BuyBox({
       ))}
 
       {product.personalizable && product.personalizationFields.length > 0 && (
-        <fieldset className="mt-6 border border-dashed border-gold/50 bg-champagne/10 p-4">
-          <legend className="flex items-center gap-1.5 px-2 text-[12px] font-semibold uppercase tracking-[0.16em] text-gold">
+        <fieldset className="mt-6 border border-dashed border-gold/60 bg-champagne/15 p-4">
+          <legend className="flex items-center gap-1.5 px-2 text-[12px] font-bold uppercase tracking-[0.16em] text-gold">
             <SparkleIcon width={14} height={14} /> Make it personal
           </legend>
           <div className="grid gap-3 sm:grid-cols-2">
             {product.personalizationFields.map((f) => (
               <label key={f.label} className="block">
-                <span className="mb-1 block text-xs font-medium text-espresso/75">{f.label}</span>
+                <span className="mb-1 block text-xs font-semibold text-espresso/75">{f.label}</span>
                 <input
                   value={personalization[f.label] ?? ""}
                   maxLength={f.max + 8}

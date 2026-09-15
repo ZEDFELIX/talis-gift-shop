@@ -2,25 +2,26 @@ import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export function buttonClasses(variant: "primary" | "gold" | "outline" | "ghost" | "light" = "primary", size: "sm" | "md" | "lg" = "md") {
+export function buttonClasses(variant: "primary" | "gold" | "outline" | "outline-light" | "ghost" | "light" = "primary", size: "sm" | "md" | "lg" = "md") {
   return cn(
     "btn-base",
     size === "sm" && "px-4 py-2 text-[11px]",
     size === "md" && "px-6 py-3",
     size === "lg" && "px-8 py-3.5 text-[13px]",
-    variant === "primary" && "bg-ink text-ivory hover:bg-espresso hover:shadow-lift",
-    variant === "gold" && "bg-gold text-ink hover:bg-champagne hover:shadow-lift",
+    variant === "primary" && "bg-ink text-ivory hover:bg-leaf hover:text-gold hover:shadow-emerald",
+    variant === "gold" && "bg-gold text-ink hover:bg-champagne hover:shadow-glow",
     variant === "outline" && "border border-gold/70 text-gold hover:bg-gold hover:text-ink",
+    variant === "outline-light" && "border border-ivory/50 text-ivory hover:border-gold hover:text-gold",
     variant === "ghost" && "text-espresso hover:text-gold",
     variant === "light" && "bg-white text-ink border border-beige hover:border-gold hover:text-gold"
   );
 }
 
-export function Button({ variant, size, className, ...props }: ComponentProps<"button"> & { variant?: "primary" | "gold" | "outline" | "ghost" | "light"; size?: "sm" | "md" | "lg" }) {
+export function Button({ variant, size, className, ...props }: ComponentProps<"button"> & { variant?: "primary" | "gold" | "outline" | "outline-light" | "ghost" | "light"; size?: "sm" | "md" | "lg" }) {
   return <button className={cn(buttonClasses(variant, size), className)} {...props} />;
 }
 
-export function ButtonLink({ variant, size, className, ...props }: ComponentProps<typeof Link> & { variant?: "primary" | "gold" | "outline" | "ghost" | "light"; size?: "sm" | "md" | "lg" }) {
+export function ButtonLink({ variant, size, className, ...props }: ComponentProps<typeof Link> & { variant?: "primary" | "gold" | "outline" | "outline-light" | "ghost" | "light"; size?: "sm" | "md" | "lg" }) {
   return <Link className={cn(buttonClasses(variant, size), className)} {...props} />;
 }
 
@@ -57,10 +58,10 @@ export function Badge({ tone = "black", children }: { tone?: "black" | "gold" | 
   return (
     <span
       className={cn(
-        "inline-block px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em]",
-        tone === "black" && "bg-ink text-ivory",
+        "inline-block px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em]",
+        tone === "black" && "bg-ink text-gold",
         tone === "gold" && "bg-gold text-ink",
-        tone === "sale" && "bg-espresso text-champagne",
+        tone === "sale" && "bg-gold text-ink shadow-glow",
         tone === "muted" && "bg-beige/60 text-espresso"
       )}
     >
@@ -76,7 +77,7 @@ export function Stars({ rating, size = 14, showValue }: { rating: number | null;
       {[1, 2, 3, 4, 5].map((i) => {
         const filled = rating >= i - 0.4;
         return (
-          <svg key={i} width={size} height={size} viewBox="0 0 24 24" fill={filled ? "#C9A45C" : "none"} stroke="#C9A45C" strokeWidth={1.4} aria-hidden>
+          <svg key={i} width={size} height={size} viewBox="0 0 24 24" fill={filled ? "#E9B63C" : "none"} stroke="#E9B63C" strokeWidth={1.4} aria-hidden>
             <path d="m12 3 2.7 5.8 6.3.7-4.7 4.3 1.3 6.2L12 16.8 6.4 20l1.3-6.2L3 9.5l6.3-.7L12 3Z" />
           </svg>
         );
@@ -89,9 +90,9 @@ export function Stars({ rating, size = 14, showValue }: { rating: number | null;
 export function SectionHeading({ eyebrow, title, sub, script, center = true, light }: { eyebrow?: string; title: string; sub?: string; script?: string; center?: boolean; light?: boolean }) {
   return (
     <div className={cn("mb-10 max-w-2xl", center && "mx-auto text-center")}>
-      {eyebrow && <p className={cn("eyebrow mb-3", light && "text-champagne")}>{eyebrow}</p>}
-      <h2 className={cn("h-serif text-3xl sm:text-4xl", light ? "text-ivory" : "text-ink")}>{title}</h2>
-      {script && <p className="mt-2 font-script text-2xl text-gold">{script}</p>}
+      {eyebrow && <p className={cn("eyebrow mb-3", light && "text-gold")}>{eyebrow}</p>}
+      <h2 className={cn("h-serif text-3xl sm:text-4xl lg:text-[44px] lg:leading-tight", light ? "text-ivory" : "text-ink")}>{title}</h2>
+      {script && <p className="mt-2 font-script text-3xl text-gold">{script}</p>}
       {sub && <p className={cn("mt-3 text-sm leading-relaxed", light ? "text-ivory/70" : "text-espresso/65")}>{sub}</p>}
     </div>
   );
@@ -100,9 +101,9 @@ export function SectionHeading({ eyebrow, title, sub, script, center = true, lig
 export function Divider() {
   return (
     <div className="flex items-center justify-center gap-3 py-2" aria-hidden>
-      <span className="h-px w-16 bg-gradient-to-r from-transparent to-gold/50" />
-      <span className="rotate-45 border border-gold/70 p-[3px]" />
-      <span className="h-px w-16 bg-gradient-to-l from-transparent to-gold/50" />
+      <span className="h-px w-16 bg-gradient-to-r from-transparent to-gold" />
+      <span className="rotate-45 border border-gold bg-gold p-[3px] shadow-glow" />
+      <span className="h-px w-16 bg-gradient-to-l from-transparent to-gold" />
     </div>
   );
 }

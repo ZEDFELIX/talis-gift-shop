@@ -188,8 +188,9 @@ export function CheckoutView({ defaultName, defaultEmail, defaultPhone }: {
       </div>
 
       <aside className="lg:sticky lg:top-24 lg:self-start" aria-label="Order summary">
-        <div className="border border-beige bg-white p-6">
-          <h2 className="font-serif text-xl text-ink">Order Summary</h2>
+        <div className="relative border border-gold/30 bg-white p-6">
+          <span aria-hidden className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-gold to-transparent" />
+          <h2 className="font-serif text-xl font-bold text-ink">Order Summary</h2>
           <Divider />
           <ul className="max-h-64 space-y-3 overflow-y-auto pr-1">
             {cart.items.map((l) => (
@@ -215,9 +216,9 @@ export function CheckoutView({ defaultName, defaultEmail, defaultPhone }: {
             )}
             <div className="flex justify-between"><dt className="text-espresso/65">Delivery</dt><dd className="font-semibold text-green-800">Free</dd></div>
           </dl>
-          <div className="mt-4 flex items-baseline justify-between border-t-2 border-ink pt-4">
-            <span className="text-[12px] font-semibold uppercase tracking-[0.18em]">Total</span>
-            <span className="font-serif text-2xl font-semibold text-ink">{formatKSh(total)}</span>
+          <div className="mt-4 flex items-baseline justify-between border-t-2 border-gold pt-4">
+            <span className="text-[12px] font-bold uppercase tracking-[0.18em] text-gold">Total</span>
+            <span className="font-serif text-2xl font-bold text-ink">{formatKSh(total)}</span>
           </div>
           <Button type="submit" variant="gold" size="lg" className="mt-6 w-full" disabled={busy}>
             {busy ? (<><Spinner /> Placing order…</>) : `Place Order — ${formatKSh(total)}`}

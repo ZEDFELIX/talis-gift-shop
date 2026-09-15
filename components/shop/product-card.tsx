@@ -20,7 +20,7 @@ export function ProductCard({ product, priority }: { product: ProductCardData; p
   const outOfStock = product.stock <= 0;
 
   return (
-    <article className="group relative flex flex-col bg-white shadow-card transition-shadow duration-300 hover:shadow-lift">
+    <article className="group relative flex flex-col border border-beige bg-white shadow-card transition-all duration-300 hover:border-gold hover:shadow-glow">
       <div className="relative overflow-hidden bg-beige/40">
         <Link href={`/products/${product.slug}`} aria-label={product.name} className="block aspect-[4/5]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -46,8 +46,8 @@ export function ProductCard({ product, priority }: { product: ProductCardData; p
             toast.push(saved ? "Removed from wishlist" : "Saved to your wishlist");
           }}
           className={cn(
-            "absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow-card backdrop-blur transition-all hover:bg-white hover:text-gold",
-            saved && "text-gold"
+            "absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-white/60 bg-white/90 shadow-card backdrop-blur transition-all hover:border-gold hover:bg-white hover:text-gold",
+            saved && "border-gold bg-gold text-ink"
           )}
         >
           <HeartIcon width={17} height={17} filled={saved} />
@@ -55,7 +55,7 @@ export function ProductCard({ product, priority }: { product: ProductCardData; p
 
         <button
           onClick={() => setQuickView(true)}
-          className="absolute inset-x-3 bottom-3 hidden translate-y-2 items-center justify-center gap-2 bg-white/95 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-espresso opacity-0 shadow-card backdrop-blur transition-all duration-300 hover:text-gold group-hover:translate-y-0 group-hover:opacity-100 sm:flex"
+          className="absolute inset-x-3 bottom-3 hidden translate-y-2 items-center justify-center gap-2 bg-ink/90 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-gold opacity-0 shadow-card backdrop-blur transition-all duration-300 hover:bg-gold hover:text-ink group-hover:translate-y-0 group-hover:opacity-100 sm:flex"
         >
           <EyeIcon width={15} height={15} /> Quick View
         </button>
@@ -63,7 +63,7 @@ export function ProductCard({ product, priority }: { product: ProductCardData; p
 
       <div className="flex flex-1 flex-col p-4">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-serif text-[15px] leading-snug text-ink">
+          <h3 className="font-serif text-[15px] font-semibold leading-snug text-ink">
             <Link href={`/products/${product.slug}`} className="transition-colors hover:text-gold">{product.name}</Link>
           </h3>
         </div>

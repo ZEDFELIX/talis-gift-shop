@@ -39,11 +39,11 @@ export function CartView() {
         {cart.items.length === 0 ? (
           <p className="border border-dashed border-beige bg-white/60 p-8 text-center text-sm text-espresso/60">Your cart is empty — saved items are below.</p>
         ) : (
-          <ul className="divide-y divide-beige border border-beige bg-white">
+          <ul className="divide-y divide-beige border border-gold/30 bg-white">
             {cart.items.map((line) => (
               <li key={line.key} className="flex gap-4 p-4 sm:p-5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={line.image} alt={line.name} width={88} height={110} className="h-[110px] w-[88px] shrink-0 border border-beige object-cover" />
+                <img src={line.image} alt={line.name} width={88} height={110} className="h-[110px] w-[88px] shrink-0 border border-gold/30 object-cover" />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
@@ -105,19 +105,25 @@ export function CartView() {
           </section>
         )}
 
-        <section aria-label="Recommendations" className="mt-12 rounded-none border border-gold/30 bg-champagne/10 p-6 text-center">
-          <GiftIcon width={24} height={24} className="mx-auto text-gold" />
-          <h2 className="mt-2 font-serif text-xl text-ink">MAKE IT SPECIAL</h2>
-          <p className="mx-auto mt-1 max-w-sm text-sm text-espresso/65">
-            Turn any order into a composed gift box with a ribbon and a handwritten card.
-          </p>
-          <ButtonLink href="/build-your-gift" variant="outline" size="sm" className="mt-4">Build a Gift Box</ButtonLink>
+        <section aria-label="Recommendations" className="emerald-gradient relative mt-12 overflow-hidden p-6 text-center">
+          <div className="talis-pattern absolute inset-0 opacity-40" aria-hidden />
+          <div className="relative">
+            <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-gold bg-ink">
+              <GiftIcon width={22} height={22} className="text-gold" />
+            </span>
+            <h2 className="mt-2 font-serif text-xl font-bold text-ivory">MAKE IT SPECIAL</h2>
+            <p className="mx-auto mt-1 max-w-sm text-sm text-ivory/70">
+              Turn any order into a composed gift box with a ribbon and a handwritten card.
+            </p>
+            <ButtonLink href="/build-your-gift" variant="outline-light" size="sm" className="mt-4">Build a Gift Box</ButtonLink>
+          </div>
         </section>
       </div>
 
       <aside className="lg:sticky lg:top-24 lg:self-start" aria-label="Order summary">
-        <div className="border border-beige bg-white p-6">
-          <h2 className="font-serif text-xl text-ink">Order Summary</h2>
+        <div className="relative border border-gold/30 bg-white p-6">
+          <span aria-hidden className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-gold to-transparent" />
+          <h2 className="font-serif text-xl font-bold text-ink">Order Summary</h2>
           <Divider />
           <dl className="space-y-2.5 text-sm">
             <div className="flex justify-between"><dt className="text-espresso/65">Subtotal ({cart.count} item{cart.count === 1 ? "" : "s"})</dt><dd>{formatKSh(cart.subtotal)}</dd></div>
@@ -127,9 +133,9 @@ export function CartView() {
             <div className="flex justify-between text-espresso/50"><dt>Delivery</dt><dd>Calculated at checkout</dd></div>
           </dl>
 
-          <div className="mt-5 flex items-baseline justify-between border-t border-beige pt-4">
-            <span className="text-[12px] font-semibold uppercase tracking-[0.18em]">Total</span>
-            <span className="font-serif text-2xl font-semibold text-ink">{formatKSh(Math.max(0, cart.subtotal - discountOff))}</span>
+          <div className="mt-5 flex items-baseline justify-between border-t border-gold/30 pt-4">
+            <span className="text-[12px] font-bold uppercase tracking-[0.18em] text-gold">Total</span>
+            <span className="font-serif text-2xl font-bold text-ink">{formatKSh(Math.max(0, cart.subtotal - discountOff))}</span>
           </div>
 
           <form
@@ -179,8 +185,8 @@ export function CartView() {
 export function GiftMessageCard() {
   const cart = useCart();
   return (
-    <section aria-label="Gift message" className="mt-10 border border-dashed border-gold/50 bg-champagne/10 p-6">
-      <label htmlFor="giftNote" className="block font-serif text-lg text-ink">Add a handwritten message</label>
+    <section aria-label="Gift message" className="mt-10 border border-dashed border-gold/60 bg-champagne/15 p-6">
+      <label htmlFor="giftNote" className="block font-serif text-lg font-semibold text-ink">Add a handwritten message</label>
       <p className="mt-1 text-sm text-espresso/60">We&apos;ll write it on a Talis card, by hand.</p>
       <textarea
         id="giftNote"

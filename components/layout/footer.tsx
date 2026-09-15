@@ -6,14 +6,16 @@ import type { SiteSettings } from "@/lib/settings";
 
 export function Footer({ settings }: { settings: SiteSettings }) {
   return (
-    <footer className="bg-ink text-ivory">
+    <footer className="emerald-gradient text-ivory">
+      <div className="gold-hairline" aria-hidden />
       <div className="container-talis grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-5 lg:gap-8">
         <div className="lg:col-span-2">
           <Logo light />
-          <p className="mt-4 max-w-xs font-serif text-lg italic leading-relaxed text-champagne">Beyond the Feeling</p>
-          <p className="mt-3 max-w-xs text-sm leading-relaxed text-ivory/55">
+          <p className="mt-4 max-w-xs font-serif text-lg font-semibold italic leading-relaxed text-gold">Beyond the Feeling</p>
+          <p className="mt-3 max-w-xs text-sm leading-relaxed text-ivory/60">
             Thoughtfully chosen. Beautifully given. Remembered forever.
           </p>
+          <div className="mt-6 h-px w-24 bg-gradient-to-r from-gold to-transparent" aria-hidden />
           <div className="mt-6 flex gap-3">
             <SocialLink href={`https://instagram.com/${settings.instagramHandle.replace("@", "")}`} label="Instagram"><InstagramIcon width={18} height={18} /></SocialLink>
             <SocialLink href="https://tiktok.com" label="TikTok"><TiktokIcon width={18} height={18} /></SocialLink>
@@ -45,18 +47,18 @@ export function Footer({ settings }: { settings: SiteSettings }) {
         ]} />
       </div>
 
-      <div className="border-t border-white/10">
+      <div className="border-t border-gold/15">
         <div className="container-talis flex flex-col items-center justify-between gap-6 py-10 md:flex-row">
           <div className="max-w-md text-center md:text-left">
-            <h3 className="font-serif text-xl text-champagne">Let&apos;s stay in the know</h3>
+            <h3 className="font-serif text-xl font-semibold text-gold">Let&apos;s stay in the know</h3>
             <p className="mt-1 text-sm text-ivory/50">Be the first to discover new gifts and special collections.</p>
           </div>
           <NewsletterForm compact />
         </div>
       </div>
 
-      <div className="border-t border-white/10 py-6 text-center">
-        <p className="text-[11px] uppercase tracking-[0.22em] text-ivory/40">
+      <div className="border-t border-gold/15 py-6 text-center">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ivory/45">
           © {new Date().getFullYear()} Talis Gift Shop · Nairobi, Kenya · M-PESA Accepted
         </p>
       </div>
@@ -67,11 +69,11 @@ export function Footer({ settings }: { settings: SiteSettings }) {
 function FooterCol({ title, links }: { title: string; links: [string, string][] }) {
   return (
     <nav aria-label={title}>
-      <h4 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-gold">{title}</h4>
+      <h4 className="mb-4 text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{title}</h4>
       <ul className="space-y-2.5">
         {links.map(([href, label], i) => (
           <li key={`${href}-${i}`}>
-            <Link href={href} className="text-sm text-ivory/65 transition-colors hover:text-champagne">{label}</Link>
+            <Link href={href} className="text-sm text-ivory/65 transition-colors hover:text-gold">{label}</Link>
           </li>
         ))}
       </ul>
@@ -86,7 +88,7 @@ function SocialLink({ href, label, children }: { href: string; label: string; ch
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-ivory/70 transition-all hover:border-gold hover:text-gold"
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/40 text-gold/80 transition-all hover:border-gold hover:bg-gold hover:text-ink"
     >
       {children}
     </a>

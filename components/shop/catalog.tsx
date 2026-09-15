@@ -112,12 +112,15 @@ async function CatalogInner({ preset, query, rawParams }: { preset: CatalogPrese
         </div>
       </div>
 
-      <section className="mt-16 border border-gold/30 bg-ink px-6 py-12 text-center md:mt-24">
-        <p className="font-script text-3xl text-champagne">Can&apos;t decide?</p>
-        <h2 className="mt-2 font-serif text-2xl text-ivory sm:text-3xl">Build a gift box as unique as they are</h2>
-        <Link href="/build-your-gift" className="btn-base mt-6 bg-gold px-8 py-3.5 text-ink hover:bg-champagne">
-          Build a Gift Box
-        </Link>
+      <section className="emerald-gradient relative mt-16 overflow-hidden px-6 py-12 text-center md:mt-24">
+        <div className="talis-pattern absolute inset-0 opacity-50" aria-hidden />
+        <div className="relative">
+          <p className="font-script text-3xl text-gold">Can&apos;t decide?</p>
+          <h2 className="mt-2 font-serif text-2xl font-bold text-ivory sm:text-3xl">Build a gift box as unique as they are</h2>
+          <Link href="/build-your-gift" className="btn-base mt-6 bg-gold px-8 py-3.5 text-ink shadow-glow hover:bg-champagne">
+            Build a Gift Box
+          </Link>
+        </div>
       </section>
     </div>
   );

@@ -127,7 +127,7 @@ export function ReviewsSection({ productSlug, reviews, rating }: { productSlug: 
           )}
         </div>
         {!showForm && (
-          <button onClick={() => setShowForm(true)} className="btn-base border border-espresso px-6 py-3 hover:bg-ink hover:text-ivory">
+          <button onClick={() => setShowForm(true)} className="btn-base border border-espresso px-6 py-3 hover:bg-ink hover:text-gold">
             Write a Review
           </button>
         )}

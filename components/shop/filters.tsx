@@ -54,8 +54,8 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "flex w-full items-center justify-between px-3 py-2 text-left text-[13px] transition-colors",
-        active ? "bg-ink text-ivory" : "text-espresso/70 hover:bg-ivory hover:text-espresso"
+        "flex w-full items-center justify-between rounded-sm px-3 py-2 text-left text-[13px] transition-colors",
+        active ? "bg-ink font-semibold text-gold" : "text-espresso/70 hover:bg-champagne/50 hover:text-espresso"
       )}
     >
       <span>{children}</span>
@@ -139,7 +139,7 @@ function FilterPanel({ categories, occasions, resultCount, basePath }: { categor
       </Group>
 
       {activeCount > 0 && (
-        <a href={clearHref()} className="mt-4 block w-full border border-espresso py-2.5 text-center text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors hover:bg-ink hover:text-ivory">
+        <a href={clearHref()} className="mt-4 block w-full border border-espresso py-2.5 text-center text-[11px] font-bold uppercase tracking-[0.18em] transition-colors hover:bg-ink hover:text-gold">
           Clear all filters ({activeCount})
         </a>
       )}

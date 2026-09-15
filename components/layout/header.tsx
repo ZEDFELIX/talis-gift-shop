@@ -31,12 +31,13 @@ const COLLECTION_LINKS = [
 export function Logo({ light }: { light?: boolean }) {
   return (
     <Link href="/" className="group inline-flex flex-col items-center leading-none" aria-label="Talis Gift Shop — home">
-      <span className={cn("font-serif text-[26px] font-semibold tracking-[0.32em] transition-colors", light ? "text-ivory" : "text-ink")}>
-        TALIS<span className="text-gold">.</span>
+      <span className={cn("font-serif text-[26px] font-bold tracking-[0.32em] transition-colors", light ? "text-ivory" : "text-ink")}>
+        TALIS<span className="gold-text">.</span>
       </span>
-      <span className={cn("mt-1 text-[8.5px] font-medium uppercase tracking-[0.52em]", light ? "text-ivory/60" : "text-espresso/55")}>
+      <span className={cn("mt-1 text-[8.5px] font-bold uppercase tracking-[0.52em]", light ? "text-gold" : "text-gold")}>
         Gift Shop
       </span>
+      <span aria-hidden className="mt-1 h-px w-10 bg-gradient-to-r from-transparent via-gold to-transparent" />
     </Link>
   );
 }
@@ -66,10 +67,12 @@ export function Header({ announcement }: { announcement: string }) {
 
   return (
     <>
-      <div className="bg-ink px-4 py-2 text-center">
-        <p className="text-[11px] uppercase tracking-[0.22em] text-champagne">{announcement}</p>
+      <div className="emerald-gradient relative overflow-hidden px-4 py-2 text-center">
+        <p className="relative text-[11px] font-bold uppercase tracking-[0.24em] text-champagne">
+          {announcement}
+        </p>
       </div>
-      <header className={cn("sticky top-0 z-50 border-b transition-all duration-300", scrolled ? "border-beige/70 bg-ivory/95 shadow-soft backdrop-blur" : "border-transparent bg-ivory")}>
+      <header className={cn("sticky top-0 z-50 border-b transition-all duration-300", scrolled ? "border-gold/30 bg-ivory/95 shadow-soft backdrop-blur" : "border-transparent bg-ivory")}>
         <div className="container-talis flex h-[68px] items-center justify-between gap-4">
           <button
             className="flex h-10 w-10 items-center justify-center lg:hidden"
@@ -79,7 +82,7 @@ export function Header({ announcement }: { announcement: string }) {
             <MenuIcon width={22} height={22} />
           </button>
 
-          <nav className="hidden items-center gap-7 lg:flex" aria-label="Main">
+          <nav className="hidden items-center gap-8 lg:flex" aria-label="Main">
             {[
               { href: "/shop", label: "Shop" },
               { href: "/occasions", label: "Occasions", dropdown: OCCASION_LINKS },
@@ -92,7 +95,7 @@ export function Header({ announcement }: { announcement: string }) {
                 <Link
                   href={item.href}
                   className={cn(
-                    "link-underline flex items-center gap-1 py-2 text-[12px] font-semibold uppercase tracking-[0.16em] transition-colors hover:text-gold",
+                    "link-underline flex items-center gap-1 py-2 text-[11px] font-bold uppercase tracking-[0.18em] transition-colors hover:text-gold",
                     active && "text-gold"
                   )}
                 >
@@ -101,9 +104,9 @@ export function Header({ announcement }: { announcement: string }) {
                 </Link>
                 {item.dropdown && (
                   <div className="invisible absolute left-1/2 top-full z-50 w-60 -translate-x-1/2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-                    <div className="border border-beige bg-white p-2 shadow-lift">
+                    <div className="emerald-gradient border border-leaf/60 p-2 shadow-lift">
                       {item.dropdown.map((sub) => (
-                        <Link key={sub.href} href={sub.href} className="block px-4 py-2.5 text-[12px] uppercase tracking-[0.14em] text-espresso/75 transition-colors hover:bg-ivory hover:text-gold">
+                        <Link key={sub.href} href={sub.href} className="block px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-champagne/80 transition-colors hover:bg-leaf/50 hover:text-gold">
                           {sub.label}
                         </Link>
                       ))}
@@ -199,27 +202,27 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
   ];
   return (
     <div className="fixed inset-0 z-[80] lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
-      <button aria-label="Close menu" onClick={onClose} className="absolute inset-0 bg-ink/50 backdrop-blur-sm animate-fadeIn" />
-      <div className="absolute inset-y-0 left-0 flex w-[86vw] max-w-sm flex-col bg-ivory shadow-lift" style={{ animation: "slideIn .35s cubic-bezier(.22,.8,.36,1) both", transform: "none", direction: "ltr" }}>
+      <button aria-label="Close menu" onClick={onClose} className="absolute inset-0 bg-ink/60 backdrop-blur-sm animate-fadeIn" />
+      <div className="absolute inset-y-0 left-0 flex w-[86vw] max-w-sm flex-col bg-ivory shadow-emerald" style={{ animation: "slideIn .35s cubic-bezier(.22,.8,.36,1) both", transform: "none", direction: "ltr" }}>
         <style>{`@keyframes talisSlideRight{from{transform:translateX(-100%)}to{transform:none}}`}</style>
-        <div className="flex h-[68px] items-center justify-between border-b border-beige px-5">
-          <Logo />
-          <button aria-label="Close menu" onClick={onClose} className="flex h-10 w-10 items-center justify-center"><XIcon width={22} height={22} /></button>
+        <div className="emerald-gradient flex h-[68px] items-center justify-between border-b border-leaf/50 px-5">
+          <Logo light />
+          <button aria-label="Close menu" onClick={onClose} className="flex h-10 w-10 items-center justify-center text-champagne hover:text-gold"><XIcon width={22} height={22} /></button>
         </div>
         <div className="flex-1 overflow-y-auto px-5 py-6" style={{ animation: "talisSlideRight .35s cubic-bezier(.22,.8,.36,1) both" }}>
           <p className="eyebrow mb-3">What do you want them to feel?</p>
-          <Link href="/build-your-gift" onClick={onClose} className="mb-6 block border border-gold/60 bg-white px-5 py-4 text-center text-[12px] font-semibold uppercase tracking-[0.18em] text-gold">
+          <Link href="/build-your-gift" onClick={onClose} className="mb-6 block border border-gold bg-gold px-5 py-4 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-ink shadow-glow transition-colors hover:bg-champagne">
             Build a Gift Box
           </Link>
           {groups.map((g) => (
             <details key={g.title} className="group border-b border-beige/70 py-1" open={g.title === "Shop"}>
-              <summary className="flex cursor-pointer list-none items-center justify-between py-3 font-serif text-lg text-ink [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between py-3 font-serif text-lg font-semibold text-ink [&::-webkit-details-marker]:hidden">
                 {g.title}
-                <ChevronDownIcon width={16} height={16} className="transition-transform group-open:rotate-180" />
+                <ChevronDownIcon width={16} height={16} className="transition-transform group-open:rotate-180 text-gold" />
               </summary>
               <div className="pb-3">
                 {g.links.map((l) => (
-                  <Link key={l.href} href={l.href} onClick={onClose} className="block py-2 pl-3 text-sm text-espresso/75 hover:text-gold">
+                  <Link key={l.href} href={l.href} onClick={onClose} className="block py-2 pl-3 text-sm text-espresso/75 transition-colors hover:text-gold hover:pl-4">
                     {l.label}
                   </Link>
                 ))}
@@ -227,8 +230,8 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
             </details>
           ))}
         </div>
-        <div className="border-t border-beige p-5">
-          <Link href="/account" onClick={onClose} className="flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.16em] hover:text-gold">
+        <div className="border-t border-gold/30 p-5">
+          <Link href="/account" onClick={onClose} className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.16em] text-espresso hover:text-gold">
             <UserIcon width={18} height={18} /> Account & Orders
           </Link>
         </div>
@@ -273,8 +276,8 @@ function SearchOverlay({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 z-[85]" role="dialog" aria-modal="true" aria-label="Search">
-      <button aria-label="Close search" onClick={onClose} className="absolute inset-0 bg-ink/60 backdrop-blur-sm animate-fadeIn" />
-      <div className="relative mx-auto mt-[10vh] w-[92vw] max-w-xl animate-fadeUp border border-beige bg-ivory p-5 shadow-lift sm:p-6">
+      <button aria-label="Close search" onClick={onClose} className="absolute inset-0 bg-ink/70 backdrop-blur-sm animate-fadeIn" />
+      <div className="relative mx-auto mt-[10vh] w-[92vw] max-w-xl animate-fadeUp border border-gold/30 bg-ivory p-5 shadow-glow sm:p-6">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -283,7 +286,7 @@ function SearchOverlay({ onClose }: { onClose: () => void }) {
           }}
           role="search"
         >
-          <div className="flex items-center gap-3 border-b border-espresso/25 pb-3">
+          <div className="flex items-center gap-3 border-b border-beige pb-3">
             <SearchIcon width={20} height={20} className="shrink-0 text-gold" />
             <input
               ref={inputRef}
@@ -306,7 +309,7 @@ function SearchOverlay({ onClose }: { onClose: () => void }) {
                 <button
                   key={s}
                   onClick={() => setTerm(s)}
-                  className="rounded-full border border-beige bg-white px-3.5 py-1.5 text-xs capitalize text-espresso/70 transition-colors hover:border-gold hover:text-gold"
+                  className="rounded-full border border-beige bg-white px-3.5 py-1.5 text-xs font-semibold capitalize text-espresso/70 transition-colors hover:border-gold hover:bg-gold/10 hover:text-gold"
                 >
                   {s}
                 </button>
@@ -319,11 +322,11 @@ function SearchOverlay({ onClose }: { onClose: () => void }) {
           <ul className="max-h-[46vh] divide-y divide-beige/60 overflow-y-auto pt-2">
             {results.map((r) => (
               <li key={r.slug}>
-                <Link href={`/products/${r.slug}`} onClick={onClose} className="flex items-center gap-4 px-1 py-3 transition-colors hover:bg-white">
+                <Link href={`/products/${r.slug}`} onClick={onClose} className="flex items-center gap-4 px-1 py-3 transition-colors hover:bg-champagne/30">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={r.image} alt="" width={48} height={48} className="h-12 w-12 shrink-0 border border-beige object-cover" />
-                  <span className="min-w-0 flex-1 truncate text-sm text-espresso">{r.name}</span>
-                  <span className="shrink-0 text-sm font-semibold text-gold">{formatKSh(r.price)}</span>
+                  <img src={r.image} alt="" width={48} height={48} className="h-12 w-12 shrink-0 border border-gold/30 object-cover" />
+                  <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ink">{r.name}</span>
+                  <span className="shrink-0 text-sm font-bold text-gold">{formatKSh(r.price)}</span>
                 </Link>
               </li>
             ))}
@@ -332,11 +335,11 @@ function SearchOverlay({ onClose }: { onClose: () => void }) {
 
         {results !== null && results.length === 0 && term.trim().length >= 2 && (
           <div className="py-8 text-center">
-            <p className="font-serif text-lg text-ink">We couldn&apos;t find that</p>
+            <p className="font-serif text-lg font-semibold text-ink">We couldn&apos;t find that</p>
             <p className="mt-1 text-sm text-espresso/60">Try another feeling, occasion or product.</p>
             <button
               onClick={() => { router.push(`/shop?q=${encodeURIComponent(term.trim())}`); onClose(); }}
-              className="mt-4 text-[12px] font-semibold uppercase tracking-[0.16em] text-gold underline underline-offset-4"
+              className="mt-4 text-[11px] font-bold uppercase tracking-[0.16em] text-gold underline underline-offset-4"
             >
               Browse all gifts
             </button>

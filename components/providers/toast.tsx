@@ -27,8 +27,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             key={t.id}
             role="status"
             className={cn(
-              "animate-fadeUp pointer-events-auto flex items-center gap-3 rounded-sm px-4 py-3 text-sm shadow-lift",
-              t.tone === "success" ? "bg-ink text-ivory" : "bg-espresso text-champagne border border-gold/40"
+              "animate-fadeUp pointer-events-auto flex items-center gap-3 rounded-sm border px-4 py-3 text-sm shadow-lift",
+              t.tone === "success" ? "border-gold/40 bg-ink text-ivory" : "border-gold bg-espresso text-champagne"
             )}
           >
             <span className={cn("shrink-0", t.tone === "success" ? "text-gold" : "text-champagne")}>

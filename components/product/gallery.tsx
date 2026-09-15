@@ -19,7 +19,7 @@ export function ProductGallery({ images, alt }: { images: { url: string; alt: st
   return (
     <div>
       <div
-        className="relative aspect-square overflow-hidden bg-beige/40 md:aspect-[4/5]"
+        className="relative aspect-square overflow-hidden border border-beige bg-beige/40 md:aspect-[4/5]"
         role="group"
         aria-roledescription="image gallery"
         aria-label={`${alt} images`}

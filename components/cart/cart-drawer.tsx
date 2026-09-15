@@ -14,17 +14,19 @@ export function CartDrawer() {
 
   return (
     <div className="fixed inset-0 z-[75]" role="dialog" aria-modal="true" aria-label="Cart">
-      <button aria-label="Close cart" onClick={() => cart.setDrawerOpen(false)} className="absolute inset-0 bg-ink/50 backdrop-blur-sm animate-fadeIn" />
-      <aside className="absolute inset-y-0 right-0 flex w-[92vw] max-w-md flex-col bg-ivory shadow-lift animate-slideIn">
-        <div className="flex h-[68px] shrink-0 items-center justify-between border-b border-beige px-5">
-          <h2 className="font-serif text-xl text-ink">Your Cart</h2>
-          <button onClick={() => cart.setDrawerOpen(false)} aria-label="Close" className="flex h-10 w-10 items-center justify-center hover:text-gold"><XIcon width={20} height={20} /></button>
+      <button aria-label="Close cart" onClick={() => cart.setDrawerOpen(false)} className="absolute inset-0 bg-ink/60 backdrop-blur-sm animate-fadeIn" />
+      <aside className="absolute inset-y-0 right-0 flex w-[92vw] max-w-md flex-col bg-ivory shadow-emerald animate-slideIn">
+        <div className="emerald-gradient flex h-[68px] shrink-0 items-center justify-between border-b border-leaf px-5">
+          <h2 className="font-serif text-xl font-semibold text-gold">Your Cart</h2>
+          <button onClick={() => cart.setDrawerOpen(false)} aria-label="Close" className="flex h-10 w-10 items-center justify-center text-champagne hover:text-gold"><XIcon width={20} height={20} /></button>
         </div>
 
         {cart.items.length === 0 ? (
           <div className="talis-pattern flex flex-1 flex-col items-center justify-center gap-3 px-8 text-center">
-            <GiftIcon width={40} height={40} className="text-gold" />
-            <p className="font-serif text-2xl text-ink">Your cart is waiting</p>
+            <span className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-gold bg-ink shadow-glow">
+              <GiftIcon width={30} height={30} className="text-gold" />
+            </span>
+            <p className="font-serif text-2xl font-semibold text-ink">Your cart is waiting</p>
             <p className="text-sm text-espresso/60">Something beautiful could be here.</p>
             <ButtonLink href="/shop" variant="primary" size="sm" className="mt-2" onClick={() => cart.setDrawerOpen(false)}>
               Explore Gifts
@@ -36,15 +38,15 @@ export function CartDrawer() {
               {cart.items.map((line) => (
                 <li key={line.key} className="flex gap-4 py-4">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={line.image} alt={line.name} width={72} height={90} className="h-[90px] w-[72px] shrink-0 border border-beige object-cover" />
+                  <img src={line.image} alt={line.name} width={72} height={90} className="h-[90px] w-[72px] shrink-0 border border-gold/30 object-cover" />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">
                       {line.type === "product" && line.slug ? (
-                        <Link href={`/products/${line.slug}`} onClick={() => cart.setDrawerOpen(false)} className="truncate font-serif text-[15px] text-ink hover:text-gold">
+                        <Link href={`/products/${line.slug}`} onClick={() => cart.setDrawerOpen(false)} className="truncate font-serif text-[15px] font-semibold text-ink hover:text-gold">
                           {line.name}
                         </Link>
                       ) : (
-                        <span className="truncate font-serif text-[15px] text-ink">{line.name}</span>
+                        <span className="truncate font-serif text-[15px] font-semibold text-ink">{line.name}</span>
                       )}
                       <button onClick={() => cart.remove(line.key)} aria-label={`Remove ${line.name}`} className="shrink-0 text-espresso/40 hover:text-red-700">
                         <TrashIcon width={16} height={16} />
@@ -69,17 +71,18 @@ export function CartDrawer() {
                           <PlusIcon width={13} height={13} />
                         </button>
                       </div>
-                      <span className="text-sm font-semibold text-espresso">{formatKSh(line.price * line.qty)}</span>
+                      <span className="text-sm font-bold text-espresso">{formatKSh(line.price * line.qty)}</span>
                     </div>
                   </div>
                 </li>
               ))}
             </ul>
 
-            <div className="shrink-0 space-y-3 border-t border-beige bg-white p-5">
+            <div className="relative shrink-0 space-y-3 border-t border-gold/30 bg-white p-5">
+              <span aria-hidden className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-gold to-transparent" />
               <div className="flex items-center justify-between text-sm">
-                <span className="uppercase tracking-[0.14em] text-espresso/60">Subtotal</span>
-                <span className="font-serif text-lg font-semibold text-ink">{formatKSh(cart.subtotal)}</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-espresso/60">Subtotal</span>
+                <span className="font-serif text-lg font-bold text-ink">{formatKSh(cart.subtotal)}</span>
               </div>
               {cart.discount && (
                 <div className="flex items-center justify-between text-sm text-green-800">
@@ -95,7 +98,7 @@ export function CartDrawer() {
               </div>
               <button
                 onClick={() => { cart.setDrawerOpen(false); window.location.href = "/build-your-gift"; }}
-                className="w-full pt-1 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-gold hover:text-espresso"
+                className="w-full pt-1 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-gold hover:text-espresso"
               >
                 Make it special — build a gift box
               </button>

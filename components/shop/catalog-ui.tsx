@@ -71,12 +71,12 @@ export function EmptyState({ title, line, actionLabel, actionHref, children }: {
   children?: React.ReactNode;
 }) {
   return (
-    <div className="talis-pattern flex flex-col items-center justify-center gap-3 border border-dashed border-beige px-8 py-20 text-center">
-      <span aria-hidden className="font-serif text-5xl text-gold/50">T</span>
-      <h3 className="mt-2 font-serif text-2xl text-ink">{title}</h3>
+    <div className="talis-pattern flex flex-col items-center justify-center gap-3 border border-dashed border-gold/40 px-8 py-20 text-center">
+      <span aria-hidden className="flex h-14 w-14 items-center justify-center rounded-full border border-gold bg-ink font-serif text-2xl font-bold text-gold">T</span>
+      <h3 className="mt-2 font-serif text-2xl font-semibold text-ink">{title}</h3>
       <p className="max-w-sm text-sm leading-relaxed text-espresso/60">{line}</p>
       {actionHref && actionLabel && (
-        <Link href={actionHref} className="btn-base mt-3 bg-ink px-7 py-3 text-ivory hover:bg-gold hover:text-ink">
+        <Link href={actionHref} className="btn-base mt-3 bg-ink px-7 py-3 text-gold hover:bg-gold hover:text-ink">
           {actionLabel}
         </Link>
       )}
