@@ -9,75 +9,14 @@ import { getSettings } from "@/lib/settings";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
-  title: {
-    default: "Talis Gift Shop — Beyond the Feeling | Premium Gifts Nairobi",
-    template: "%s | Talis Gift Shop"
-  },
-  description: "Thoughtful gifts for the moments that matter. Curated gift boxes, personalized treasures and beautiful flowers — delivered across Nairobi and Kenya.",
-  keywords: ["gifts nairobi", "gift shop kenya", "gift boxes", "personalized gifts", "mpesa gifts", "talis gift shop"],
-  openGraph: {
-    type: "website",
-    siteName: "Talis Gift Shop",
-    title: "Talis Gift Shop — Beyond the Feeling",
-    description: "More than a gift. A feeling. Premium curated gifts delivered across Kenya.",
-    images: [{ url: "/images/hero.svg", width: 1600, height: 900 }]
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Talis Gift Shop — Beyond the Feeling",
-    description: "Thoughtful gifts for the moments that matter."
-  },
-  robots: { index: true, follow: true }
+  title: { default:"ZED Gift Shop — Gifts That Say More.", template:"%s | ZED Gift Shop" },
+  description:"Thoughtful gifts, beautifully personalized and delivered across Kenya.",
+  keywords:["gift shop kenya","gifts nairobi","personalized gifts","gift boxes","M-PESA gifts","ZED Gift Shop"],
+  openGraph:{ type:"website", siteName:"ZED Gift Shop", title:"ZED Gift Shop — Gifts That Say More.", description:"Thoughtful gifts for the moments that matter.", images:[{url:"/images/hero.svg",width:1600,height:900}] },
+  robots:{index:true,follow:true}
 };
-
-export const viewport: Viewport = {
-  themeColor: "#071F17",
-  width: "device-width",
-  initialScale: 1
-};
-
-const orgJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Talis Gift Shop",
-  slogan: "Beyond the Feeling",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-  address: { "@type": "PostalAddress", addressLocality: "Nairobi", addressCountry: "KE" },
-  sameAs: ["https://instagram.com/talisgiftshop"]
-};
-
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const settings = await getSettings();
-
-  return (
-    <html lang="en-KE">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Montserrat:wght@500;600;700;800&family=Great+Vibes&display=swap"
-          rel="stylesheet"
-        />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
-      </head>
-      <body className="flex min-h-screen flex-col">
-        <Providers>
-          <Header announcement={settings.announcement} />
-          <main className="flex-1 pb-[72px] md:pb-0">{children}</main>
-          <Footer settings={settings} />
-          <MobileBottomNav />
-          <CartDrawer />
-          <a
-            href={`https://wa.me/${settings.whatsapp}?text=${encodeURIComponent("Hi Talis! I'd love help choosing a gift.")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Chat with Talis on WhatsApp"
-            className="fixed bottom-[84px] right-4 z-[65] flex h-12 w-12 items-center justify-center rounded-full bg-gold text-ink shadow-glow transition-shadow hover:scale-105 hover:shadow-glow md:bottom-6 md:right-6"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4.5 19.5 5.8 16A7.5 7.5 0 1 1 9 18.6l-4.5.9Z" /></svg>
-          </a>
-        </Providers>
-      </body>
-    </html>
-  );
+export const viewport: Viewport={themeColor:"#063121",width:"device-width",initialScale:1};
+export default async function RootLayout({children}:{children:React.ReactNode}){
+ const settings=await getSettings();
+ return <html lang="en-KE"><head><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/></head><body className="flex min-h-screen flex-col"><Providers><Header announcement={settings.announcement}/><main className="flex-1 pb-[72px] md:pb-0">{children}</main><Footer settings={settings}/><MobileBottomNav/><CartDrawer/><a href={`https://wa.me/${settings.whatsapp}?text=${encodeURIComponent("Hi ZED! I'd love help choosing a gift.")}`} target="_blank" rel="noopener noreferrer" aria-label="Chat with ZED on WhatsApp" className="fixed bottom-[84px] right-4 z-[65] flex h-12 w-12 items-center justify-center rounded-full bg-lime text-ink shadow-lg transition hover:scale-105 md:bottom-6 md:right-6">↗</a></Providers></body></html>;
 }
