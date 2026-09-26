@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 export const metadata: Metadata = { title: "ZED Gift Shop — Gifts Made for Moments" };
 
 const categories = [
-  ["Gifts for Her","/images/jewelry.svg","/shop?q=her"],["Gifts for Him","/images/wallet.svg","/shop?q=him"],
+  ["Gifts for Her","/images/jewelry.svg","/shop?q=her"],["Gifts for Him","/images/box.svg","/shop?q=him"],
   ["Personalized Gifts","/images/engraved.svg","/personalized"],["Gift Hampers","/images/hamper.svg","/gift-boxes"],
-  ["Drinkware","/images/tumbler.svg","/shop?q=drinkware"],["Corporate Gifts","/images/desk-organizer.svg","/shop?q=corporate"]
+  ["Drinkware","/images/tumbler.svg","/shop?q=drinkware"],["Corporate Gifts","/images/home.svg","/shop?q=corporate"]
 ];
 const products = [
   ["Personalized Gift Box","KSh 3,499","/images/box-open.svg"],["Premium Self-Care Set","KSh 2,999","/images/selfcare.svg"],
