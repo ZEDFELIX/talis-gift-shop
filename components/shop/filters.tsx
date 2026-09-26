@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FilterIcon, XIcon } from "@/components/icons";
-import { cn, formatKSh } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { PRICE_BUCKETS, RECIPIENTS } from "@/types";
 
 type Facet = { slug: string; name: string; count?: number };
@@ -51,10 +51,11 @@ function Group({ title, children }: { title: string; children: React.ReactNode }
 function Chip({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button
+      type="button"
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "flex w-full items-center justify-between rounded-sm px-3 py-2 text-left text-[13px] transition-colors",
+        "flex min-h-10 w-full items-center justify-between rounded-sm px-3 py-2.5 text-left text-[13px] transition-colors",
         active ? "bg-ink font-semibold text-gold" : "text-espresso/70 hover:bg-champagne/50 hover:text-espresso"
       )}
     >
@@ -66,6 +67,7 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
 
 function FilterPanel({ categories, occasions, resultCount, basePath }: { categories: Facet[]; occasions: Facet[]; resultCount: number; basePath?: string }) {
   const { update, params, activeCount } = useFilterNav(basePath);
+
   return (
     <aside aria-label="Product filters" className="border border-beige bg-white p-5">
       <div className="flex items-center justify-between border-b border-beige pb-4">
@@ -92,11 +94,12 @@ function FilterPanel({ categories, occasions, resultCount, basePath }: { categor
             const active = params.get("occasion") === o.slug;
             return (
               <button
+                type="button"
                 key={o.slug}
                 onClick={() => update("occasion", o.slug)}
                 aria-pressed={active}
                 className={cn(
-                  "rounded-full border px-3 py-1.5 text-xs transition-colors",
+                  "rounded-full border px-3 py-2 text-xs transition-colors",
                   active ? "border-gold bg-gold text-ink font-semibold" : "border-beige text-espresso/65 hover:border-gold hover:text-gold"
                 )}
               >
@@ -113,11 +116,12 @@ function FilterPanel({ categories, occasions, resultCount, basePath }: { categor
             const active = params.get("recipient") === r.slug;
             return (
               <button
+                type="button"
                 key={r.slug}
                 onClick={() => update("recipient", r.slug)}
                 aria-pressed={active}
                 className={cn(
-                  "rounded-full border px-3 py-1.5 text-xs transition-colors",
+                  "rounded-full border px-3 py-2 text-xs transition-colors",
                   active ? "border-gold bg-gold text-ink font-semibold" : "border-beige text-espresso/65 hover:border-gold hover:text-gold"
                 )}
               >
@@ -139,48 +143,61 @@ function FilterPanel({ categories, occasions, resultCount, basePath }: { categor
       </Group>
 
       {activeCount > 0 && (
-        <a href={clearHref()} className="mt-4 block w-full border border-espresso py-2.5 text-center text-[11px] font-bold uppercase tracking-[0.18em] transition-colors hover:bg-ink hover:text-gold">
+        <button
+          type="button"
+          onClick={() => {
+            const qs = new URLSearchParams();
+            const q = params.get("q");
+            const sort = params.get("sort");
+            if (q) qs.set("q", q);
+            if (sort) qs.set("sort", sort);
+            const s = qs.toString();
+            routerPush(s ? `${basePath}?${s}` : basePath);
+          }}
+          className="mt-4 block w-full border border-espresso py-3 text-center text-[11px] font-bold uppercase tracking-[0.18em] transition-colors hover:bg-ink hover:text-gold"
+        >
           Clear all filters ({activeCount})
-        </a>
+        </button>
       )}
     </aside>
   );
 
-  function clearHref() {
-    const qs = new URLSearchParams();
-    const q = params.get("q");
-    const sort = params.get("sort");
-    if (q) qs.set("q", q);
-    if (sort) qs.set("sort", sort);
-    const s = qs.toString();
-    return s ? `/shop?${s}` : "/shop";
+  function routerPush(href: string) {
+    window.location.assign(href);
   }
 }
 
 function MobileFilters({ categories, occasions, resultCount, basePath }: { categories: Facet[]; occasions: Facet[]; resultCount: number; basePath?: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="lg:hidden">
-      <button
-        onClick={() => setOpen(true)}
-        className="btn-base w-full border border-espresso bg-white py-3"
-      >
-        <FilterIcon width={16} height={16} /> Filters & Sort · {resultCount} gifts
-      </button>
+    <div className="w-full lg:hidden">
+      <div className="grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="flex min-h-11 items-center justify-center gap-2 border border-ink bg-white px-3 text-[11px] font-bold uppercase tracking-[0.14em] text-ink"
+        >
+          <FilterIcon width={15} height={15} /> Filters
+        </button>
+        <div className="flex min-h-11 items-center justify-center border border-beige bg-white px-3">
+          <SortSelect basePath={basePath} />
+        </div>
+      </div>
+
       {open && (
         <div className="fixed inset-0 z-[80]" role="dialog" aria-modal="true" aria-label="Filters">
-          <button aria-label="Close filters" onClick={() => setOpen(false)} className="absolute inset-0 bg-ink/50 backdrop-blur-sm animate-fadeIn" />
-          <div className="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-xl bg-ivory shadow-lift animate-fadeUp">
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-beige bg-ivory px-5 py-4">
-              <h2 className="font-serif text-lg text-ink">Filters</h2>
-              <button onClick={() => setOpen(false)} aria-label="Close" className="flex h-9 w-9 items-center justify-center"><XIcon width={20} height={20} /></button>
+          <button aria-label="Close filters" onClick={() => setOpen(false)} className="absolute inset-0 bg-ink/55 backdrop-blur-sm animate-fadeIn" />
+          <div className="absolute inset-x-0 bottom-0 max-h-[88vh] overflow-y-auto rounded-t-[24px] bg-ivory shadow-lift animate-fadeUp">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-beige bg-ivory/95 px-5 py-4 backdrop-blur">
+              <div>
+                <p className="eyebrow">Refine</p>
+                <h2 className="font-serif text-xl text-ink">Shop filters</h2>
+              </div>
+              <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="flex h-10 w-10 items-center justify-center rounded-full bg-white"><XIcon width={20} height={20} /></button>
             </div>
-            <div className="p-5 pt-0">
-              <SortSelect />
-            </div>
-            <div className="px-5 pb-8">
+            <div className="p-5 pb-8">
               <FilterPanel categories={categories} occasions={occasions} resultCount={resultCount} basePath={basePath} />
-              <button onClick={() => setOpen(false)} className="btn-base mt-5 w-full bg-ink py-3.5 text-ivory">
+              <button type="button" onClick={() => setOpen(false)} className="btn-base mt-5 w-full bg-ink py-3.5 text-ivory">
                 Show {resultCount} gifts
               </button>
             </div>
@@ -194,12 +211,12 @@ function MobileFilters({ categories, occasions, resultCount, basePath }: { categ
 export function SortSelect({ basePath = "/shop" }: { basePath?: string }) {
   const { update, params } = useFilterNav(basePath);
   return (
-    <label className="flex items-center justify-between gap-3 text-[12px] uppercase tracking-[0.14em] text-espresso/60">
+    <label className="flex w-full items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-[0.12em] text-espresso/60">
       <span>Sort</span>
       <select
         value={params.get("sort") ?? "newest"}
         onChange={(e) => update("sort", e.target.value === "newest" ? undefined : e.target.value)}
-        className="field-input w-auto py-2 pr-8 text-xs normal-case tracking-normal"
+        className="w-auto max-w-[120px] border-0 bg-transparent py-1 pr-5 text-[11px] font-semibold normal-case tracking-normal text-ink outline-none"
         aria-label="Sort products"
       >
         <option value="newest">Newest</option>
