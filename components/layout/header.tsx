@@ -24,15 +24,15 @@ const OCCASION_LINKS = [
   ["graduation", "Graduation"], ["valentines", "Valentine's"], ["christmas", "Christmas"]
 ].map(([slug, label]) => ({ href: `/occasions/${slug}`, label }));
 const COLLECTION_LINKS = [
-  ["talis-signature", "Talis Signature"], ["talis-moments", "Talis Moments"],
-  ["talis-personal", "Talis Personal"], ["talis-home", "Talis Home"]
+  ["zed-signature", "ZED Signature"], ["zed-moments", "ZED Moments"],
+  ["zed-personal", "ZED Personal"], ["zed-home", "ZED Home"]
 ].map(([slug, label]) => ({ href: `/collections/${slug}`, label }));
 
 export function Logo({ light }: { light?: boolean }) {
   return (
-    <Link href="/" className="group inline-flex flex-col items-center leading-none" aria-label="Talis Gift Shop — home">
+    <Link href="/" className="group inline-flex flex-col items-center leading-none" aria-label="ZED Gift Shop — home">
       <span className={cn("font-serif text-[26px] font-bold tracking-[0.32em] transition-colors", light ? "text-ivory" : "text-ink")}>
-        TALIS<span className="gold-text">.</span>
+        ZED<span className="gold-text">.</span>
       </span>
       <span className={cn("mt-1 text-[8.5px] font-bold uppercase tracking-[0.52em]", light ? "text-gold" : "text-gold")}>
         Gift Shop
@@ -73,7 +73,7 @@ export function Header({ announcement }: { announcement: string }) {
         </p>
       </div>
       <header className={cn("sticky top-0 z-50 border-b transition-all duration-300", scrolled ? "border-gold/30 bg-ivory/95 shadow-soft backdrop-blur" : "border-transparent bg-ivory")}>
-        <div className="container-talis flex h-[68px] items-center justify-between gap-4">
+        <div className="container-zed flex h-[68px] items-center justify-between gap-4">
           <button
             className="flex h-10 w-10 items-center justify-center lg:hidden"
             aria-label="Open menu"
@@ -86,7 +86,7 @@ export function Header({ announcement }: { announcement: string }) {
             {[
               { href: "/shop", label: "Shop" },
               { href: "/occasions", label: "Occasions", dropdown: OCCASION_LINKS },
-              { href: "/collections/talis-signature", label: "Collections", dropdown: COLLECTION_LINKS },
+              { href: "/collections/zed-signature", label: "Collections", dropdown: COLLECTION_LINKS },
               { href: "/build-your-gift", label: "Build a Gift Box" }
             ].map((item) => {
               const active = item.href === "/shop" ? pathname.startsWith("/shop") : pathname.startsWith(item.href);
@@ -204,12 +204,12 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
     <div className="fixed inset-0 z-[80] lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
       <button aria-label="Close menu" onClick={onClose} className="absolute inset-0 bg-ink/60 backdrop-blur-sm animate-fadeIn" />
       <div className="absolute inset-y-0 left-0 flex w-[86vw] max-w-sm flex-col bg-ivory shadow-emerald" style={{ animation: "slideIn .35s cubic-bezier(.22,.8,.36,1) both", transform: "none", direction: "ltr" }}>
-        <style>{`@keyframes talisSlideRight{from{transform:translateX(-100%)}to{transform:none}}`}</style>
+        <style>{`@keyframes zedSlideRight{from{transform:translateX(-100%)}to{transform:none}}`}</style>
         <div className="emerald-gradient flex h-[68px] items-center justify-between border-b border-leaf/50 px-5">
           <Logo light />
           <button aria-label="Close menu" onClick={onClose} className="flex h-10 w-10 items-center justify-center text-champagne hover:text-gold"><XIcon width={22} height={22} /></button>
         </div>
-        <div className="flex-1 overflow-y-auto px-5 py-6" style={{ animation: "talisSlideRight .35s cubic-bezier(.22,.8,.36,1) both" }}>
+        <div className="flex-1 overflow-y-auto px-5 py-6" style={{ animation: "zedSlideRight .35s cubic-bezier(.22,.8,.36,1) both" }}>
           <p className="eyebrow mb-3">What do you want them to feel?</p>
           <Link href="/build-your-gift" onClick={onClose} className="mb-6 block border border-gold bg-gold px-5 py-4 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-ink shadow-glow transition-colors hover:bg-champagne">
             Build a Gift Box
