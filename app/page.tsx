@@ -11,7 +11,7 @@ const categories = [
 const products = [
   ["Personalized Gift Box","KSh 3,499","/images/box-open.svg"],["Premium Self-Care Set","KSh 2,999","/images/selfcare.svg"],
   ["Engraved Keepsake","KSh 2,499","/images/engraved.svg"],["Signature Tumbler","KSh 2,499","/images/tumbler.svg"],
-  ["Bamboo Desk Organizer","KSh 4,299","/images/desk-organizer.svg"],["Maasai-Inspired Gift","KSh 3,499","/images/packaging.svg"]
+  ["Bamboo Desk Organizer","KSh 4,299","/images/home.svg"],["Maasai-Inspired Gift","KSh 3,499","/images/packaging.svg"]
 ];
 
 export default function HomePage() {
