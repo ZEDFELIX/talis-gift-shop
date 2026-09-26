@@ -8,7 +8,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
   return (
     <footer className="emerald-gradient text-ivory">
       <div className="gold-hairline" aria-hidden />
-      <div className="container-talis grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-5 lg:gap-8">
+      <div className="container-zed grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-5 lg:gap-8">
         <div className="lg:col-span-2">
           <Logo light />
           <p className="mt-4 max-w-xs font-serif text-lg font-semibold italic leading-relaxed text-gold">Beyond the Feeling</p>
@@ -48,7 +48,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
       </div>
 
       <div className="border-t border-gold/15">
-        <div className="container-talis flex flex-col items-center justify-between gap-6 py-10 md:flex-row">
+        <div className="container-zed flex flex-col items-center justify-between gap-6 py-10 md:flex-row">
           <div className="max-w-md text-center md:text-left">
             <h3 className="font-serif text-xl font-semibold text-gold">Let&apos;s stay in the know</h3>
             <p className="mt-1 text-sm text-ivory/50">Be the first to discover new gifts and special collections.</p>
@@ -59,7 +59,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
 
       <div className="border-t border-gold/15 py-6 text-center">
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ivory/45">
-          © {new Date().getFullYear()} Talis Gift Shop · Nairobi, Kenya · M-PESA Accepted
+          © {new Date().getFullYear()} ZED Gift Shop · Nairobi, Kenya · M-PESA Accepted
         </p>
       </div>
     </footer>
